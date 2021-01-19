@@ -144,9 +144,9 @@ augroup END
 " Tabs and Indents {{{
 " ----------------
 set textwidth=80    " Text width maximum chars before wrapping
-set expandtab       " Expand tabs to spaces
-set tabstop=2       " The number of spaces a tab is
-set shiftwidth=2    " Number of spaces to use in auto(indent)
+set noexpandtab     " NO Expand tabs to spaces
+set tabstop=4       " The number of spaces a tab is
+set shiftwidth=4    " Number of spaces to use in auto(indent)
 set softtabstop=-1  " Automatically keeps in sync with shiftwidth
 set smarttab        " Tab insert blanks according to 'shiftwidth'
 set autoindent      " Use same indenting on new lines
@@ -154,7 +154,7 @@ set smartindent     " Smart autoindenting on new lines
 set shiftround      " Round indent to multiple of 'shiftwidth'
 
 if exists('&breakindent')
-  set breakindentopt=shift:2,min:20
+  set breakindentopt=shift:4,min:20
 endif
 
 " }}}
