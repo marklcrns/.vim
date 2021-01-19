@@ -90,8 +90,7 @@ set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp
 set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp
 set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp
 set viewdir=$DATA_PATH/view/
-" Use the coc-spell-checker to do this
-" set spellfile=$VIM_PATH/spell/en.utf-8.add
+set spellfile=$VIM_PATH/spell/en.utf-8.add
 
 " History saving
 set history=2000
@@ -209,6 +208,7 @@ set backspace=indent,eol,start  " Intuitive backspacing in insert mode
 set diffopt=filler,iwhite       " Diff mode: show fillers, ignore whitespace
 set completeopt=menu,menuone    " Always show menu, even for one item
 set completeopt+=noselect,noinsert
+set omnifunc=syntaxcomplete#Complete
 
 if exists('+completepopup')
   set completeopt+=popup
@@ -356,12 +356,11 @@ function! ImprovedDefaultMappings()
   vnoremap j gj
   vnoremap k gk
 
-  " DISABLE: Conflict with rhysd/accelerated-jk
-  " " Makes Relative Number jumps work with text wrap
-  " noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
-  " noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
-  " vnoremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
-  " vnoremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+  " Makes Relative Number jumps work with text wrap
+  noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+  noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+  vnoremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+  vnoremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
   " Improve scroll, credits: https://github.com/Shougo
   noremap <expr> zz (winline() == (winheight(0)+1) / 2) ?
@@ -586,8 +585,8 @@ function! YankPasteMappings()
   " Yank and paste line under cursor to and from "x register
   " nnoremap <C-y> "xyy"xp$
   inoremap <C-y> <Esc>"xyy"xp`.A
-  " Duplicate current line then enter line substitution. DEPRECATED by vim-abolish
-  " inoremap <C-y> <ESC>yypV:s//g<Left><Left>
+  " Duplicate current line then enter line substitution.
+  inoremap <C-y> <ESC>yypV:s//g<Left><Left>
   " Auto indent while pasting
   function! AutoIndentPaste()
     " Don't apply on these filetypes
@@ -609,8 +608,6 @@ function! EmacsLikeMappings()
   " Cursor navigation
   inoremap <C-b> <Left>
   inoremap <C-f> <Right>
-  inoremap <expr><C-n> pumvisible() ? "\<C-n>" : "\<Down>"
-  inoremap <expr><C-p> pumvisible() ? "\<C-p>" : "\<Up>"
   " move between sentences
   inoremap <M-a> <C-[>(i
   inoremap <M-e> <C-[>)i
