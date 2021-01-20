@@ -1,4 +1,15 @@
 
+" ale
+" -----
+nmap <silent> gn <Plug>(ale_next)
+nmap <silent> gp <Plug>(ale_previous)
+noremap gd :ALEGoToDefinition<CR>
+noremap gr :ALEFindReferences<CR>
+noremap gs :ALESymbolSearch<CR>
+noremap <Leader>cn :ALERename<CR>
+noremap <Leader>ca :ALECodeAction<CR>
+
+
 " caw
 " -----
 

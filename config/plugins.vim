@@ -18,7 +18,6 @@ Plug 'tyru/caw.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
 Plug 'pechorin/any-jump.vim', { 'on': 'AnyJump' }
-Plug 'tpope/vim-eunuch'
 
 " File Managers
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -45,6 +44,7 @@ autocmd VimEnter *
 " ale
 " -----
 
+let g:ale_set_balloons = 1
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
 set omnifunc=ale#completion#OmniFunc
