@@ -54,12 +54,6 @@ vnoremap <silent> ?d            :<c-u>WhichKeyVisual 'd'<CR>
 nnoremap <silent> ?g            :<c-u>WhichKey 'g'<CR>
 vnoremap <silent> ?g            :<c-u>WhichKeyVisual 'g'<CR>
 
-" Fern
-" -----
-
-nnoremap <silent> <Leader>ee :<C-u>Fern . -drawer -keep -toggle -width=35 -reveal=%<CR><C-w>=
-nnoremap <silent> <Leader>ea :<C-u>Fern . -drawer -keep -toggle -width=35<CR>
-
 " fugitive
 " -----
 
