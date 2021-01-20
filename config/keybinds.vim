@@ -281,3 +281,22 @@ vnoremap <silent> ?g            :<c-u>WhichKeyVisual 'g'<CR>
 
 nnoremap <silent> <Leader>ee :<C-u>Fern . -drawer -keep -toggle -width=35 -reveal=%<CR><C-w>=
 nnoremap <silent> <Leader>ea :<C-u>Fern . -drawer -keep -toggle -width=35<CR>
+
+" fugitive
+" -----
+
+nnoremap <Leader>gb :<C-u>Git blame<CR>
+nnoremap <Leader>gdc :<C-u>Gdiff --cached<CR>
+nnoremap <Leader>gdd :<C-u>Gdiff<Space>
+nnoremap <Leader>gdt :<C-u>Git difftool<CR>
+nnoremap <Leader>gds :<C-u>Gdiffsplit!<CR>
+nnoremap <Leader>gdh :<C-u>Ghdiffsplit<CR>
+nnoremap <Leader>gdv :<C-u>Gvdiffsplit<CR>
+nnoremap <Leader>gl :<C-u>Glog<CR>
+nnoremap <Leader>gL :<C-u>0Glog<CR>
+nnoremap <Leader>gF :<C-u>Gfetch<CR>
+nnoremap <Leader>gg :<C-u>Ggrep<Space>
+nnoremap <Leader>gG :<C-u>Glog --grep= -- %<Left><Left><Left><Left><Left>
+nnoremap <Leader>gr :<C-u>Git reset<CR>
+nnoremap <Leader>gs :<C-u>Gstatus<CR>
+nnoremap <Leader>gp :<C-u>Gpush<CR>

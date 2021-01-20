@@ -13,7 +13,6 @@ Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 
 " Completion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " Coding Utils
@@ -32,6 +31,7 @@ Plug 'lambdalisue/glyph-palette.vim'
 Plug 'lambdalisue/fern-git-status.vim'
 Plug 'lambdalisue/fern-mapping-project-top.vim'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+Plug 'tpope/vim-fugitive', { 'on': ['Git', 'G', 'Gdiffsplit', 'Gvdiffsplit'] }
 
 call plug#end()
 
@@ -42,74 +42,9 @@ autocmd VimEnter *
   \| endif
 
 
-" coc
-" -----
-
-" CoC config
-let g:coc_status_error_sign = ''
-let g:coc_status_warning_sign = ' '
-let g:coc_global_extensions = [
-      \ 'coc-clangd',
-      \ 'coc-css',
-      \ 'coc-tsserver',
-      \ 'coc-git',
-      \ 'coc-html',
-      \ 'coc-java',
-      \ 'coc-json',
-      \ 'coc-lists',
-      \ 'coc-python',
-      \ 'coc-ultisnips',
-      \ 'coc-sh',
-      \ 'coc-yank',
-      \ ]
-
-augroup CocAutoCmd
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
-augroup end
-
-
-" Ref: https://stackoverflow.com/a/61275100/11850077
-"      https://github.com/vim/vim/issues/2004#issuecomment-324357529
-function! IntegratedCocTab() abort
-  " First, try to expand or jump on UltiSnips.
-  let snippet = UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res > 0
-    return snippet
-  endif
-  " Then, check if we're in a completion menu
-  if pumvisible()
-    return coc#_select_confirm()
-  endif
-  " Finally, do regular tab if no trigger
-  return "\<Tab>"
-endfunction
-
-" Integration with delimitMate and Ultisnips
-autocmd FileType * inoremap <silent> <Tab>
-      \ <C-R>=IntegratedCocTab()<CR>
-" Integration with delimitMate plugin. Also ignores completion.
-inoremap <silent><expr> <CR>
-      \ delimitMate#WithinEmptyPair() ?
-      \ "\<C-R>=delimitMate#ExpandReturn()\<CR>" :
-      \ pumvisible() ? "\<C-]>\<CR>" : "\<C-g>u\<CR>"
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold   :call CocAction('fold', <f-args>)
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR     :call CocAction('runCommand', 'editor.action.organizeImport')
-
 " UltiSnips
 " -----
 
-" Let coc.nvim coc-ultisnips plugin handle the expand trigger mapping
-" See coc configs
 let g:UltiSnipsExpandTrigger = "<Tab>"
 let g:UltiSnipsJumpForwardTrigger = "<C-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
@@ -293,62 +228,10 @@ let g:which_key_map = {
     \ '1' : 'Go to first tab',
     \ '5' : 'Go to previous tab',
     \ '9' : 'Go to last tab',
-    \ 'a' : {
-          \ 'name' : '+any-jump',
-          \ 'b' : 'Open previously opened file',
-          \ 'j' : 'Open jump to definition window',
-          \ 'l' : 'Open last jump to definition result',
-          \ },
-    \ 'c' : {
-          \ 'name' : '+coc',
-             \ 'a' : 'Code action text object',
-             \ 'c' : 'Code action current word',
-             \ 'C' : 'Open coc config',
-             \ 'F' : 'Coc format',
-             \ 'g' : {
-                   \ 'name' : '+coc-git',
-                   \ 'b' : 'Preview line in git browser',
-                   \ 'B' : 'Copy line git url to clipboard',
-                   \ 'c' : 'Coc show last commit of current line',
-                   \ 'd' : 'Git diff cached',
-                   \ 'f' : 'Toggle fold all except git chunks',
-                   \ 'i' : 'Preview git chunk under cursor',
-                   \ 's' : 'Coc list status changes',
-                   \ 't' : 'Stage git chunk under cursor',
-                   \ 'u' : 'Undo git chunk changes under cursor',
-                  \ },
-             \ 'j' : 'Coc list next',
-             \ 'k' : 'Coc list prev',
-             \ 'l' : {
-                   \ 'name' : '+coc-list',
-                     \ 'c' : 'Coc commands',
-                     \ 'd' : 'Coc diagnostics',
-                     \ 'e' : 'Coc extensions',
-                     \ 'm' : 'Coc marketplace',
-                     \ 'o' : 'File outline',
-                     \ 'r' : 'Resume last coc list',
-                     \ 's' : 'Search workspace symbols',
-                     \ 'w' : 'Coc rgrep selected word or motion',
-                     \ 'W' : 'Coc grep cursor word in buffer',
-                     \ 'y' : 'Coc yank list',
-                   \ },
-            \ 'n' : 'Coc rename variable under cursor',
-            \ 'r' : 'Coc refactor word under cursor',
-            \ 's' : 'Coc search {prompt}',
-            \ 'S' : 'Coc search word match {prompt}',
-            \ 't' : {
-                  \ 'name' : '+coc-toggles',
-                  \ 'g' : 'Toggle coc git gutter',
-                  \ },
-            \ 'q' : 'Coc autofix current line',
-            \ 'x' : 'Coc cursors operate',
-            \ },
     \ 'e' : {
           \ 'name' : '+file-explorer',
              \ 'a' : 'Toggle explorer to current file',
-             \ 'c' : 'Toggle coc explorer',
              \ 'e' : 'Toggle explorer to current directory',
-             \ 'r' : 'Toggle explorer resume directory',
           \ },
     \ 'f' : {
           \ 'name' : '+file-management',
@@ -492,8 +375,6 @@ let g:which_key_lsbgmap = {
          \ 'b' : 'Buffer prev',
          \ 'B' : 'Buffer first',
          \ 'c' : 'Diff jump prev',
-         \ 'd' : 'Coc diagnostic prev',
-         \ 'g' : 'Git prev chunk',
          \ 'l' : 'Locationlist prev',
          \ 'L' : 'Locationlist first',
          \ 't' : 'Tab prev',
@@ -507,8 +388,6 @@ let g:which_key_rsbgmap = {
          \ 'b' : 'Buffer next',
          \ 'B' : 'Buffer last',
          \ 'c' : 'Diff jump next',
-         \ 'd' : 'Coc diagnostic next',
-         \ 'g' : 'Git next chunk',
          \ 'l' : 'Locationlist next',
          \ 'L' : 'Locationlist last',
          \ 't' : 'Tab next',
