@@ -54,6 +54,14 @@ vnoremap <silent> ?d            :<c-u>WhichKeyVisual 'd'<CR>
 nnoremap <silent> ?g            :<c-u>WhichKey 'g'<CR>
 vnoremap <silent> ?g            :<c-u>WhichKeyVisual 'g'<CR>
 
+" any-jump
+" -----
+"
+nnoremap <silent> <leader>ab :AnyJumpBack<CR>
+nnoremap <silent> <Leader>aj :AnyJump<CR>
+xnoremap <silent> <Leader>aj :AnyJumpVisual<CR>
+nnoremap <silent> <leader>al :AnyJumpLastResults<CR>
+
 " fugitive
 " -----
 

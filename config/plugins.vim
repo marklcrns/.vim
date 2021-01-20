@@ -9,6 +9,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tyru/caw.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
+Plug 'pechorin/any-jump.vim', { 'on': 'AnyJump' }
 
 " File searcher
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -53,6 +54,15 @@ let g:delimitMate_jump_expansion = 1
 let g:delimitMate_smart_quotes = 1
 let g:delimitMate_matchpairs = "(:),[:],{:}"
 
+" any-jump
+" -----
+
+let g:any_jump_disable_default_keybindings = 1
+let g:any_jump_window_width_ratio  = 0.8
+let g:any_jump_window_height_ratio = 0.8
+let g:any_jump_window_top_offset   = 5
+let g:any_jump_search_prefered_engine = 'rg'
+
 " WhichKey
 " -----
 
@@ -77,29 +87,15 @@ let g:which_key_map = {
     \ '1' : 'Go to first tab',
     \ '5' : 'Go to previous tab',
     \ '9' : 'Go to last tab',
+    \ 'a' : {
+          \ 'name' : '+any-jump',
+          \ 'b' : 'Open previously opened file',
+          \ 'j' : 'Open jump to definition window',
+          \ 'l' : 'Open last jump to definition result',
+          \ },
     \ 'f' : {
           \ 'name' : '+file-management',
           \ 'D' : "Delete current file",
-          \ 'd' : {
-                \ 'name' : '+file-finder',
-                \ ':' : 'Find on command history',
-                \ 'b' : 'Find on buffers',
-                \ 'c' : 'Find colorscheme',
-                \ 'f' : 'Find files on directory',
-                \ 'F' : 'Find files on directory (includes hidden files)',
-                \ 'g' : 'Find git files',
-                \ 'h' : 'Find on history',
-                \ 'l' : 'Find on locationlist',
-                \ 'm' : 'Find files with marks',
-                \ 'o' : 'Find old files',
-                \ 'p' : 'Find personal configurations',
-                \ 'r' : 'Find word with grep2',
-                \ 'R' : 'Find word relative to current file directory',
-                \ 's' : 'Find sessions',
-                \ 'u' : 'Find git diff files',
-                \ 'v' : 'Find last visual selection with Grep',
-                \ 'w' : 'Find word undercursor with Grep',
-                \ },
           \ 'g' : 'Vimgrep (project-wide) and load into quickfix',
           \ 'q' : 'Save and quit',
           \ 'Q' : 'Save all and quit',
@@ -180,9 +176,6 @@ let g:which_key_map = {
             \ 'p' : 'Duplicate paragraph',
             \ 'r' : 'Search and replace',
             \ 'R' : 'Search and replace current line',
-            \ 's' : 'Subvert line /{pat}/{sub}/[flags]',
-            \ 'S' : 'Subvert entire /{pat}/{sub}/[flags]',
-            \ 't' : 'Thesaurus current word' ,
             \ 'w' : 'Wrap paragraph to textwidth',
             \ 'y' : {
                   \ 'name' : '+yank-text',
@@ -238,15 +231,6 @@ let g:which_key_rsbgmap = {
          \ 'T' : 'Tab last',
          \ 'q' : 'Quickfix next',
          \ 'Q' : 'Quickfix last',
-      \ }
-
-let g:which_key_gmap = {
-      \ 'name' : '+g-key',
-      \ 'd' : 'Go to definition',
-      \ 'i' : 'Go to implementation',
-      \ 'p' : 'Select last pasted',
-      \ 'r' : 'Go to reference',
-      \ 'y' : 'Go to type definition',
       \ }
 
 let g:which_key_timeout = 200
