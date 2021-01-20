@@ -110,9 +110,7 @@ call s:source_file('config/keybinds.vim')
 call s:source_file('core/general.vim')
 call s:source_file('core/filetype.vim')
 call s:source_file('core/mappings.vim')
-
-set background=dark
-call s:source_file('themes/gruvbox.vim')
+call s:source_file('core/theme.vim')
 
 set secure
 
