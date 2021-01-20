@@ -3,9 +3,6 @@ call plug#begin($DATA_PATH . '/plugged')
 
 " Make sure you use single quotes
 
-" Completion
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
 " Coding Utils
 Plug 'sgur/vim-editorconfig'
 Plug 'tpope/vim-repeat'
@@ -20,7 +17,7 @@ Plug 'lambdalisue/nerdfont.vim', { 'on': 'Fern' }
 Plug 'lambdalisue/glyph-palette.vim', { 'on': 'Fern' }
 Plug 'lambdalisue/fern-git-status.vim', { 'on': 'Fern' }
 Plug 'lambdalisue/fern-mapping-project-top.vim', { 'on': 'Fern' }
-Plug 'tpope/vim-fugitive', { 'on': ['Git', 'G', 'Gdiffsplit', 'Gvdiffsplit'] }
+Plug 'tpope/vim-fugitive', { 'on': ['G', 'Git', 'Gfetch', 'Gpush', 'Gstatus', 'Glog', 'Gclog', 'Gllog', 'Gdiffsplit', 'Gvdiffsplit'] }
 Plug 'liuchengxu/vim-which-key'
 call plug#end()
 
@@ -30,20 +27,6 @@ autocmd VimEnter *
   \|   PlugInstall
   \| endif
 
-
-" UltiSnips
-" -----
-
-let g:UltiSnipsExpandTrigger = "<Tab>"
-let g:UltiSnipsJumpForwardTrigger = "<C-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
-let g:UltiSnipsSnippetDirectories = [
-      \ $DATA_PATH . "/dein/repos/github.com/honza/vim-snippets/UltiSnips",
-      \ $VIM_PATH . "/UltiSnips"
-      \ ]
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit = "vertical"
 
 " vim-editorconfig
 " -----
