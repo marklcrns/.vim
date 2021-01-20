@@ -1,14 +1,7 @@
+execute 'source' fnamemodify(expand('<sfile>'), ':h').'/core/core.vim'
+
 " ==================== General Settings ==================== "
 
-filetype plugin indent on
-
-" Only enable syntax when vim is starting
-if has('vim_starting')
-  syntax enable
-endif
-
-set background=dark
-source ~/.vim/gruvbox.vim
 
 " General {{{
 set mouse=nv                 " Disable mouse in command-line mode
@@ -61,25 +54,15 @@ endif
 " --------
 if has('wildmenu')
   if ! has('nvim')
-    set wildmode=list:longest
+    set nowildmenu
+    set wildmode=list:longest,full
   endif
-
-  " if has('nvim')
-  "   set wildoptions=pum
-  " else
-  "   set nowildmenu
-  "   set wildmode=list:longest,full
-  "   set wildoptions=tagfile
-  " endif
   set wildignorecase
   set wildignore+=.git,.hg,.svn,.stversions,*.pyc,*.spl,*.o,*.out,*~,%*
   set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store
   set wildignore+=**/node_modules/**,**/bower_modules/**,*/.sass-cache/*
-  set wildignore+=application/vendor/**,**/vendor/ckeditor/**,media/vendor/**
   set wildignore+=__pycache__,*.egg-info,.pytest_cache,.mypy_cache/**
-  set wildcharm=<C-z>  " substitue for 'wildchar' (<Tab>) in macros
 endif
-" }}}
 
 " Vim Directories {{{
 " ---------------
@@ -90,7 +73,8 @@ set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp
 set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp
 set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp
 set viewdir=$DATA_PATH/view/
-set spellfile=$VIM_PATH/spell/en.utf-8.add
+" Use the coc-spell-checker to do this
+" set spellfile=$VIM_PATH/spell/en.utf-8.add
 
 " History saving
 set history=2000
@@ -144,9 +128,9 @@ augroup END
 " Tabs and Indents {{{
 " ----------------
 set textwidth=80    " Text width maximum chars before wrapping
-set noexpandtab     " NO Expand tabs to spaces
-set tabstop=4       " The number of spaces a tab is
-set shiftwidth=4    " Number of spaces to use in auto(indent)
+set expandtab       " Expand tabs to spaces
+set tabstop=2       " The number of spaces a tab is
+set shiftwidth=2    " Number of spaces to use in auto(indent)
 set softtabstop=-1  " Automatically keeps in sync with shiftwidth
 set smarttab        " Tab insert blanks according to 'shiftwidth'
 set autoindent      " Use same indenting on new lines
@@ -154,7 +138,7 @@ set smartindent     " Smart autoindenting on new lines
 set shiftround      " Round indent to multiple of 'shiftwidth'
 
 if exists('&breakindent')
-  set breakindentopt=shift:4,min:20
+  set breakindentopt=shift:2,min:20
 endif
 
 " }}}
@@ -208,16 +192,15 @@ set backspace=indent,eol,start  " Intuitive backspacing in insert mode
 set diffopt=filler,iwhite       " Diff mode: show fillers, ignore whitespace
 set completeopt=menu,menuone    " Always show menu, even for one item
 set completeopt+=noselect,noinsert
-set omnifunc=syntaxcomplete#Complete
 
 if exists('+completepopup')
   set completeopt+=popup
   set completepopup=height:4,width:60,highlight:InfoPopup
 endif
 
-" Use the new Neovim :h jumplist-stack
 if has('nvim-0.5')
-  set jumpoptions=stack
+  set jumpoptions=stack         " Use the new Neovim :h jumplist-stack
+  set switchbuf+=uselast        " Jump to the last window
 endif
 
 if has('patch-8.1.0360') || has('nvim-0.4')
@@ -298,6 +281,43 @@ if has('termguicolors') && &termguicolors
     set winblend=10
   endif
 endif
+
+augroup CursorUI
+  let ft_exclusion = '^\(denite\|clap_\)'
+  autocmd!
+  " Disable cursorline and cursorcolumn on InsertEnter, WinLeave
+  autocmd InsertEnter * if &ft !~# ft_exclusion |
+        \ setlocal nocursorline nocursorcolumn
+        \ | endif
+  autocmd WinLeave * setlocal nocursorline nocursorcolumn
+  " Enable cursorline and cursorcolumn on InsertLeave, WinEnter, BufWinEnter
+  " and if activated
+  autocmd InsertLeave * if (g:activate_cursorline == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorline
+        \ | endif
+  autocmd InsertLeave * if (g:activate_cursorcolumn == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorcolumn
+        \ | endif
+  autocmd WinEnter * if (g:activate_cursorline == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorline
+        \ | endif
+  autocmd WinEnter * if (g:activate_cursorcolumn == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorcolumn
+        \ | endif
+  autocmd BufWinEnter * if (g:activate_cursorline == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorline
+        \ | endif
+  autocmd BufWinEnter * if (g:activate_cursorcolumn == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorcolumn
+        \ | endif
+
+  if g:activate_cursorline
+    set cursorline
+  endif
+  if g:activate_cursorcolumn
+    set cursorcolumn
+  endif
+augroup END
 " }}}
 
 
