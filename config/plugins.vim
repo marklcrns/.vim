@@ -1,8 +1,3 @@
-if has('vim_starting')
-  filetype plugin indent on
-  syntax enable
-endif
-
 " Specify a directory for plugins
 call plug#begin($DATA_PATH . '/plugged')
 
@@ -30,7 +25,7 @@ Plug 'lambdalisue/nerdfont.vim', { 'on': 'Fern' }
 Plug 'lambdalisue/glyph-palette.vim', { 'on': 'Fern' }
 Plug 'lambdalisue/fern-git-status.vim', { 'on': 'Fern' }
 Plug 'lambdalisue/fern-mapping-project-top.vim', { 'on': 'Fern' }
-Plug 'liuchengxu/vim-which-key', { 'on': 'Fern' }
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'tpope/vim-fugitive', { 'on': ['Git', 'G', 'Gdiffsplit', 'Gvdiffsplit'] }
 
 call plug#end()
@@ -196,18 +191,19 @@ augroup END
 " -----
 
 augroup user_events
-  autocmd! FileType which_key
+  autocmd!
   autocmd  FileType which_key set laststatus=0 noshowmode noruler
         \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-augroup END
 
-call which_key#register('<Space>', 'g:which_key_map')
-call which_key#register(';', 'g:which_key_localmap')
-call which_key#register(']', 'g:which_key_rsbgmap')
-call which_key#register('[', 'g:which_key_lsbgmap')
-call which_key#register('d', 'g:which_key_dmap')
-call which_key#register('s', 'g:which_key_smap')
-call which_key#register('g', 'g:which_key_gmap')
+  autocmd User vim-which-key
+        \| call which_key#register('<Space>', 'g:which_key_map')
+        \| call which_key#register(';', 'g:which_key_localmap')
+        \| call which_key#register(']', 'g:which_key_rsbgmap')
+        \| call which_key#register('[', 'g:which_key_lsbgmap')
+        \| call which_key#register('d', 'g:which_key_dmap')
+        \| call which_key#register('s', 'g:which_key_smap')
+        \| call which_key#register('g', 'g:which_key_gmap')
+augroup END
 
 let g:which_key_map = {
     \ 'name' : '+leader-key',
@@ -417,3 +413,6 @@ let g:which_key_display_names = {
       \    '<CR>': 'ENTER',
       \ }
 
+
+filetype plugin indent on
+syntax enable
