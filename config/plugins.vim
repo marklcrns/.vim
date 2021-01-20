@@ -22,9 +22,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tyru/caw.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
-Plug 'tpope/vim-unimpaired'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'pechorin/any-jump.vim', { 'on': 'AnyJump' }
 
 " UI
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
@@ -54,7 +51,6 @@ let g:coc_status_warning_sign = ' '
 let g:coc_global_extensions = [
       \ 'coc-clangd',
       \ 'coc-css',
-      \ 'coc-emmet',
       \ 'coc-tsserver',
       \ 'coc-git',
       \ 'coc-html',
@@ -260,31 +256,6 @@ augroup my-glyph-palette
   autocmd! *
   autocmd FileType fern call glyph_palette#apply()
 augroup END
-
-" anu-jump
-" -----
-
-let g:any_jump_disable_default_keybindings = 1
-let g:any_jump_window_width_ratio  = 0.8
-let g:any_jump_window_height_ratio = 0.8
-let g:any_jump_window_top_offset   = 5
-let g:any_jump_search_prefered_engine = 'rg'
-
-" vim-indent-guides
-" -----
-
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_tab_guides = 0
-let g:indent_guides_color_change_percent = 3
-let g:indent_guides_default_mapping = 0
-let g:indent_guides_guide_size = 1
-let g:indent_guides_exclude_filetypes =
-      \ [ 'help', 'terminal', 'defx', 'denite', 'nerdtree',
-      \ 'startify', 'tagbar', 'vista_kind', 'vista', 'fzf',
-      \ 'codi', 'which_key', 'calendar', 'coc', 'floaterm',
-      \ 'any-jump', 'coc-explorer', 'clap_input', 'dashboard',
-      \ 'fern' ]
 
 " WhichKey
 " -----
@@ -518,12 +489,6 @@ let g:which_key_localmap = {
 
 let g:which_key_lsbgmap = {
       \ 'name' : '+left-square-brackets',
-         \ '[' : 'Prev function beginning',
-         \ ']' : 'Prev function end',
-         \ '=' : 'Marker any prev',
-         \ '-' : 'Marker same prev',
-         \ "'" : 'Marker unique prev',
-         \ '"' : 'Comment prev',
          \ 'b' : 'Buffer prev',
          \ 'B' : 'Buffer first',
          \ 'c' : 'Diff jump prev',
@@ -539,12 +504,6 @@ let g:which_key_lsbgmap = {
 
 let g:which_key_rsbgmap = {
       \ 'name' : '+right-square-brackets',
-         \ ']' : 'Next function beginning',
-         \ '[' : 'Next function end',
-         \ '=' : 'Marker any next',
-         \ '-' : 'Marker same next',
-         \ "'" : 'Marker unique next',
-         \ '"' : 'Comment next',
          \ 'b' : 'Buffer next',
          \ 'B' : 'Buffer last',
          \ 'c' : 'Diff jump next',
@@ -556,10 +515,6 @@ let g:which_key_rsbgmap = {
          \ 'T' : 'Tab last',
          \ 'q' : 'Quickfix next',
          \ 'Q' : 'Quickfix last',
-      \ }
-
-let g:which_key_dmap = {
-      \ 'name' : '+d-key',
       \ }
 
 let g:which_key_gmap = {
