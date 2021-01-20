@@ -1,6 +1,6 @@
 " Set custom augroup
 augroup user_events
-  autocmd!
+	autocmd!
 augroup END
 
 " Specify a directory for plugins
@@ -36,9 +36,9 @@ call plug#end()
 
 " Auto install missing plugins
 autocmd VimEnter *
-  \  if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
-  \|   PlugInstall
-  \| endif
+			\  if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
+			\|   PlugInstall
+			\| endif
 
 
 " ale
@@ -54,13 +54,13 @@ set omnifunc=ale#completion#OmniFunc
 
 let g:editorconfig_verbose = 1
 let g:editorconfig_blacklist = {
-  \ 'filetype': [
-  \   'git.*', 'fugitive', 'help', 'defx', 'denite.*', 'startify',
-  \   'dashboard', 'vista.*', 'tagbar', 'lsp-.*', 'clap_.*', 'any-jump',
-  \   'gina-.*'
-  \  ],
-  \ 'pattern': ['\.un~$']
-  \ }
+			\ 'filetype': [
+			\   'git.*', 'fugitive', 'help', 'defx', 'denite.*', 'startify',
+			\   'dashboard', 'vista.*', 'tagbar', 'lsp-.*', 'clap_.*', 'any-jump',
+			\   'gina-.*'
+			\  ],
+			\ 'pattern': ['\.un~$']
+			\ }
 
 " deliMitmate
 " -----
@@ -109,182 +109,189 @@ let g:any_jump_search_prefered_engine = 'rg'
 
 autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
-      \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+			\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 let g:which_key_map = {
-    \ 'name' : '+leader-key',
-    \ '<CR>' : 'Toggle fold at current line',
-       \ '/' : {
-             \ 'name' : '+commenter',
-                \ '/' : 'Comment toggle',
-                \ 'a' : 'Comment line/selected end',
-                \ 'b' : 'Comment box',
-                \ 'c' : 'Comment line/selected',
-                \ 'i' : 'Comment line/selected beginning',
-                \ 'j' : 'Jump next comment',
-                \ 'k' : 'Jump Prev comment',
-                \ 'w' : 'Comment wrap toggle',
-             \ },
-    \ '1' : 'Go to first tab',
-    \ '5' : 'Go to previous tab',
-    \ '9' : 'Go to last tab',
-    \ 'a' : {
-          \ 'name' : '+any-jump',
-          \ 'b' : 'Open previously opened file',
-          \ 'j' : 'Open jump to definition window',
-          \ 'l' : 'Open last jump to definition result',
-          \ },
-    \ 'f' : {
-          \ 'name' : '+file-management',
-          \ 'D' : "Delete current file",
-          \ 'g' : 'Vimgrep (project-wide) and load into quickfix',
-          \ 'q' : 'Save and quit',
-          \ 'Q' : 'Save all and quit',
-          \ 'r' : {
-                \ 'name' : '+change-directory',
-                \ 'r' : 'Change working directory to root',
-                \ 'd' : 'Change working directory to current file',
-                \ 'l' : 'Change working directory to current file (window only)',
-                \ },
-          \ 's' : 'Save buffer',
-          \ 'S' : 'Save all buffers',
-          \ 'w' : 'Wipe buffer',
-          \ 'y' : {
-                \ 'name' : '+yank-path',
-                  \ 'e' : 'Yank absolute file path without extension',
-                  \ 'E' : 'Yank relative file path without extension',
-                  \ 'p' : 'Yank absolute file path',
-                  \ 'P' : 'Yank relative file path',
-                  \ 'f' : 'Yank file name without extension',
-                  \ 'F' : 'Yank file name',
-                  \ 'd' : 'Yank absolute directory path',
-                  \ 'D' : 'Yank relative directory path',
-                  \ 'o' : 'Open/Create file from yanked path',
-                  \ 'x' : 'Yank file extension only',
-                \ },
-          \ },
-    \ 'g' : {
-          \ 'name' : '+git-operate',
-             \ 'd' : {
-                   \ 'name' : '+git-diff',
-                   \ 'c' : 'Git diff cached',
-                   \ 'd' : 'Git diff',
-                   \ 's' : 'Git diffsplit',
-                   \ 't' : 'Git difftool',
-                   \ 'h' : 'Git diffsplit horizontal',
-                   \ 'v' : 'Git diffsplit vertical',
-                   \ },
-             \ 'D' : 'Git open all dirty files (uncommited) in H splits',
-             \ 'F' : 'Git fetch',
-             \ 'g' : 'Ggrep {word}',
-             \ 'G' : 'Git log grep current file',
-             \ 'l' : 'Git log quickfix',
-             \ 'L' : 'Git log current file quickfix',
-             \ 'p' : 'Git push',
-             \ 'P' : 'Terminal git push',
-             \ 's' : 'Git status',
-             \ 'v' : 'Git commit browser',
-          \ },
-    \ 'G' : 'Grep operator',
-    \ 'J' : 'Move line down',
-    \ 'K' : 'Move line up',
-    \ 'o' : {
-          \ 'name' : '+open',
-             \ 'g' : 'Open file in google chrome',
-             \ 'o' : 'Open file with xdg',
-          \ },
-    \ 'q' : 'Adaptive buffer quit',
-    \ 'Q' : 'Quit neovim',
-    \ 'r' : {
-          \ 'name' : '+text-manipulate',
-             \ ' ' : 'Remove whitespaces',
-             \ 'c' : 'Lowercase entire file (or selected lines)',
-             \ 'C' : 'Capitalize entire file (or selected lines)',
-             \ 'e' : {
-                   \ 'name' : '+register',
-                     \ 'g' : 'display-register(+abjk)',
-                     \ 'j' : 'Cycle forward (copy selected if visual)',
-                     \ 'J' : 'Paste cycle forward',
-                     \ 'k' : 'Cycle backward (copy selected if visual)',
-                     \ 'K' : 'Paste cycle backward',
-                   \ },
-            \ 'F' : 'Search and replace confirmation last selected',
-            \ 'i' : 'Fix indentation',
-            \ 'l' : 'Enumerate selected lines (visual)',
-            \ 'L' : 'Enumerate entire file',
-            \ 'n' : 'Search forward and replace',
-            \ 'N' : 'Search backward and replace',
-            \ 'p' : 'Duplicate paragraph',
-            \ 'r' : 'Search and replace',
-            \ 'R' : 'Search and replace current line',
-            \ 'w' : 'Wrap paragraph to textwidth',
-            \ 'y' : {
-                  \ 'name' : '+yank-text',
-                  \ 'a' : 'Yank all file content',
-                  \ 'p' : 'Replace all with yanked texts',
-                  \ },
-          \ },
-    \ 't' : {
-          \ 'name' : '+tab-operate',
-             \ 'n' : 'New tab',
-             \ 'e' : 'Tab edit ',
-             \ 'm' : 'Move tab',
-             \ 'q' : 'Close current tab',
-          \ },
-    \ }
+			\ 'name' : '+leader-key',
+			\ '<CR>' : 'Toggle fold at current line',
+			\ '/' : {
+			\ 'name' : '+commenter',
+			\ '/' : 'Comment toggle',
+			\ 'a' : 'Comment line/selected end',
+			\ 'b' : 'Comment box',
+			\ 'c' : 'Comment line/selected',
+			\ 'i' : 'Comment line/selected beginning',
+			\ 'j' : 'Jump next comment',
+			\ 'k' : 'Jump Prev comment',
+			\ 'w' : 'Comment wrap toggle',
+			\ },
+			\ '1' : 'Go to first tab',
+			\ '5' : 'Go to previous tab',
+			\ '9' : 'Go to last tab',
+			\ 'a' : {
+			\ 'name' : '+any-jump',
+			\ 'b' : 'Open previously opened file',
+			\ 'j' : 'Open jump to definition window',
+			\ 'l' : 'Open last jump to definition result',
+			\ },
+			\ 'f' : {
+			\ 'name' : '+file-management',
+			\ 'D' : "Delete current file",
+			\ 'g' : 'Vimgrep (project-wide) and load into quickfix',
+			\ 'q' : 'Save and quit',
+			\ 'Q' : 'Save all and quit',
+			\ 'r' : {
+			\ 'name' : '+change-directory',
+			\ 'r' : 'Change working directory to root',
+			\ 'd' : 'Change working directory to current file',
+			\ 'l' : 'Change working directory to current file (window only)',
+			\ },
+			\ 's' : 'Save buffer',
+			\ 'S' : 'Save all buffers',
+			\ 'w' : 'Wipe buffer',
+			\ 'y' : {
+			\ 'name' : '+yank-path',
+			\ 'e' : 'Yank absolute file path without extension',
+			\ 'E' : 'Yank relative file path without extension',
+			\ 'p' : 'Yank absolute file path',
+			\ 'P' : 'Yank relative file path',
+			\ 'f' : 'Yank file name without extension',
+			\ 'F' : 'Yank file name',
+			\ 'd' : 'Yank absolute directory path',
+			\ 'D' : 'Yank relative directory path',
+			\ 'o' : 'Open/Create file from yanked path',
+			\ 'x' : 'Yank file extension only',
+			\ },
+			\ },
+			\ 'g' : {
+			\ 'name' : '+git-operate',
+			\ 'd' : {
+			\ 'name' : '+git-diff',
+			\ 'c' : 'Git diff cached',
+			\ 'd' : 'Git diff',
+			\ 's' : 'Git diffsplit',
+			\ 't' : 'Git difftool',
+			\ 'h' : 'Git diffsplit horizontal',
+			\ 'v' : 'Git diffsplit vertical',
+			\ },
+			\ 'D' : 'Git open all dirty files (uncommited) in H splits',
+			\ 'F' : 'Git fetch',
+			\ 'g' : 'Ggrep {word}',
+			\ 'G' : 'Git log grep current file',
+			\ 'l' : 'Git log quickfix',
+			\ 'L' : 'Git log current file quickfix',
+			\ 'p' : 'Git push',
+			\ 'P' : 'Terminal git push',
+			\ 's' : 'Git status',
+			\ 'v' : 'Git commit browser',
+			\ },
+			\ 'G' : 'Grep operator',
+			\ 'J' : 'Move line down',
+			\ 'K' : 'Move line up',
+			\ 'o' : {
+			\ 'name' : '+open',
+			\ 'g' : 'Open file in google chrome',
+			\ 'o' : 'Open file with xdg',
+			\ },
+			\ 'q' : 'Adaptive buffer quit',
+			\ 'Q' : 'Quit neovim',
+			\ 'r' : {
+			\ 'name' : '+text-manipulate',
+			\ ' ' : 'Remove whitespaces',
+			\ 'c' : 'Lowercase entire file (or selected lines)',
+			\ 'C' : 'Capitalize entire file (or selected lines)',
+			\ 'e' : {
+			\ 'name' : '+register',
+			\ 'g' : 'display-register(+abjk)',
+			\ 'j' : 'Cycle forward (copy selected if visual)',
+			\ 'J' : 'Paste cycle forward',
+			\ 'k' : 'Cycle backward (copy selected if visual)',
+			\ 'K' : 'Paste cycle backward',
+			\ },
+			\ 'F' : 'Search and replace confirmation last selected',
+			\ 'i' : 'Fix indentation',
+			\ 'l' : 'Enumerate selected lines (visual)',
+			\ 'L' : 'Enumerate entire file',
+			\ 'n' : 'Search forward and replace',
+			\ 'N' : 'Search backward and replace',
+			\ 'p' : 'Duplicate paragraph',
+			\ 'r' : 'Search and replace',
+			\ 'R' : 'Search and replace current line',
+			\ 'w' : 'Wrap paragraph to textwidth',
+			\ 'y' : {
+			\ 'name' : '+yank-text',
+			\ 'a' : 'Yank all file content',
+			\ 'p' : 'Replace all with yanked texts',
+			\ },
+			\ },
+			\ 's' : {
+			\ 'name' : '+sessions',
+			\ 'l' : 'Load session {session-name}',
+			\ 's' : 'Save session {session-name}',
+			\ 'u' : 'Detach session (save session and detach)',
+			\ 'q' : 'Close session (save session, detach, and close all buffers)',
+			\ },
+			\ 't' : {
+			\ 'name' : '+tab-operate',
+			\ 'n' : 'New tab',
+			\ 'e' : 'Tab edit ',
+			\ 'm' : 'Move tab',
+			\ 'q' : 'Close current tab',
+			\ },
+			\ }
 
 let g:which_key_localmap = {
-      \ 'name' : '+local-leader-key'  ,
-      \ 'l'    : 'toggle-locationlist',
-      \ 'q'    : 'Toggle quickfix',
-      \ 'r'    : 'Quick run',
-      \ 's' : {
-            \ 'name' : '+ui-toggles',
-               \ 'e' : 'Conceal toggle',
-               \ 'i' : 'Indent guide toggle',
-               \ 's' : 'Spell checker toggle',
-               \ 'v' : 'Virtualedit mode toggle',
-               \ 'w' : 'Text wrap toggle',
-            \ },
-      \ }
+			\ 'name' : '+local-leader-key'  ,
+			\ 'l'    : 'toggle-locationlist',
+			\ 'q'    : 'Toggle quickfix',
+			\ 'r'    : 'Quick run',
+			\ 's' : {
+			\ 'name' : '+ui-toggles',
+			\ 'e' : 'Conceal toggle',
+			\ 'i' : 'Indent guide toggle',
+			\ 's' : 'Spell checker toggle',
+			\ 'v' : 'Virtualedit mode toggle',
+			\ 'w' : 'Text wrap toggle',
+			\ },
+			\ }
 
 let g:which_key_lsbgmap = {
-      \ 'name' : '+left-square-brackets',
-         \ 'b' : 'Buffer prev',
-         \ 'B' : 'Buffer first',
-         \ 'c' : 'Diff jump prev',
-         \ 'l' : 'Locationlist prev',
-         \ 'L' : 'Locationlist first',
-         \ 't' : 'Tab prev',
-         \ 'T' : 'Tab first',
-         \ 'q' : 'Quickfix prev',
-         \ 'Q' : 'Quickfix first',
-      \ }
+			\ 'name' : '+left-square-brackets',
+			\ 'b' : 'Buffer prev',
+			\ 'B' : 'Buffer first',
+			\ 'c' : 'Diff jump prev',
+			\ 'l' : 'Locationlist prev',
+			\ 'L' : 'Locationlist first',
+			\ 't' : 'Tab prev',
+			\ 'T' : 'Tab first',
+			\ 'q' : 'Quickfix prev',
+			\ 'Q' : 'Quickfix first',
+			\ }
 
 let g:which_key_rsbgmap = {
-      \ 'name' : '+right-square-brackets',
-         \ 'b' : 'Buffer next',
-         \ 'B' : 'Buffer last',
-         \ 'c' : 'Diff jump next',
-         \ 'l' : 'Locationlist next',
-         \ 'L' : 'Locationlist last',
-         \ 't' : 'Tab next',
-         \ 'T' : 'Tab last',
-         \ 'q' : 'Quickfix next',
-         \ 'Q' : 'Quickfix last',
-      \ }
+			\ 'name' : '+right-square-brackets',
+			\ 'b' : 'Buffer next',
+			\ 'B' : 'Buffer last',
+			\ 'c' : 'Diff jump next',
+			\ 'l' : 'Locationlist next',
+			\ 'L' : 'Locationlist last',
+			\ 't' : 'Tab next',
+			\ 'T' : 'Tab last',
+			\ 'q' : 'Quickfix next',
+			\ 'Q' : 'Quickfix last',
+			\ }
 
 let g:which_key_timeout = 200
 let g:which_key_exit = ["\<C-[>", "\<C-c>", "\<C-g>"]
 
 let g:which_key_display_names = {
-      \       ' ': 'SPC',
-      \   '<C-H>': 'BS',
-      \   '<C-I>': 'TAB',
-      \   '<TAB>': 'TAB',
-      \ '<S-TAB>': 'S-TAB',
-      \    '<CR>': 'ENTER',
-      \ }
+			\       ' ': 'SPC',
+			\   '<C-H>': 'BS',
+			\   '<C-I>': 'TAB',
+			\   '<TAB>': 'TAB',
+			\ '<S-TAB>': 'S-TAB',
+			\    '<CR>': 'ENTER',
+			\ }
 
 call which_key#register('<Space>', 'g:which_key_map')
 call which_key#register(';', 'g:which_key_localmap')
