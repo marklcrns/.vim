@@ -18,7 +18,6 @@ Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
 
 " UI
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'lambdalisue/fern.vim', { 'on': 'Fern' }
 Plug 'lambdalisue/fern-renderer-nerdfont.vim', { 'on': 'Fern' }
 Plug 'lambdalisue/nerdfont.vim', { 'on': 'Fern' }
@@ -74,30 +73,6 @@ let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_jump_expansion = 1
 let g:delimitMate_smart_quotes = 1
 let g:delimitMate_matchpairs = "(:),[:],{:}"
-
-" vim-clap
-" -----
-
-let g:clap_cache_directory = $DATA_PATH . '/clap'
-let g:clap_disable_run_rooter = v:false
-let g:clap_theme = 'atom_dark'
-let g:clap_current_selection_sign= { 'text': '➤', 'texthl': "ClapCurrentSelectionSign", "linehl": "ClapCurrentSelection"}
-let g:clap_layout = { 'relative': 'editor' }
-let g:clap_enable_icon = 1
-let g:clap_search_box_border_style = 'curve'
-let g:clap_provider_grep_executable = 'rg'
-let g:clap_provider_grep_opts = '-H --hidden --no-heading --smart-case --vimgrep -g "!.git/" -g "!node_modules/"'
-let g:clap_provider_grep_enable_icon = 1
-let g:clap_prompt_format = '%spinner%%forerunner_status% %provider_id%:'
-
-" A function to config highlight of ClapSymbol
-" when the background color opaque
-function! s:ClapSymbolHL() abort
-  let s:current_bgcolor = synIDattr(hlID("Normal"), "bg")
-  if s:current_bgcolor == ''
-    hi ClapSymbol guibg=NONE ctermbg=NONE
-  endif
-endfunction
 
 " Fern
 " -----
@@ -190,20 +165,18 @@ augroup END
 " WhichKey
 " -----
 
-augroup user_events
-  autocmd!
-  autocmd  FileType which_key set laststatus=0 noshowmode noruler
-        \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+autocmd! FileType which_key
+autocmd  FileType which_key set laststatus=0 noshowmode noruler
+      \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
-  autocmd User vim-which-key
-        \| call which_key#register('<Space>', 'g:which_key_map')
-        \| call which_key#register(';', 'g:which_key_localmap')
-        \| call which_key#register(']', 'g:which_key_rsbgmap')
-        \| call which_key#register('[', 'g:which_key_lsbgmap')
-        \| call which_key#register('d', 'g:which_key_dmap')
-        \| call which_key#register('s', 'g:which_key_smap')
-        \| call which_key#register('g', 'g:which_key_gmap')
-augroup END
+autocmd! User vim-which-key
+      \| call which_key#register('<Space>', 'g:which_key_map')
+      \| call which_key#register(';', 'g:which_key_localmap')
+      \| call which_key#register(']', 'g:which_key_rsbgmap')
+      \| call which_key#register('[', 'g:which_key_lsbgmap')
+      \| call which_key#register('d', 'g:which_key_dmap')
+      \| call which_key#register('s', 'g:which_key_smap')
+      \| call which_key#register('g', 'g:which_key_gmap')
 
 let g:which_key_map = {
     \ 'name' : '+leader-key',
@@ -412,7 +385,6 @@ let g:which_key_display_names = {
       \ '<S-TAB>': 'S-TAB',
       \    '<CR>': 'ENTER',
       \ }
-
 
 filetype plugin indent on
 syntax enable

@@ -32,12 +32,12 @@ function! s:source_file(path, ...)
   endtry
 endfunction
 
-" Enables 24-bit RGB color in the terminal
-if has('termguicolors')
-  if empty($COLORTERM) || $COLORTERM =~# 'truecolor\|24bit'
-    set termguicolors
-  endif
-endif
+" " Enables 24-bit RGB color in the terminal
+" if has('termguicolors')
+"   if empty($COLORTERM) || $COLORTERM =~# 'truecolor\|24bit'
+"     set termguicolors
+"   endif
+" endif
 
 " Disable vim distribution plugins
 let g:loaded_gzip = 1
@@ -110,7 +110,8 @@ call s:source_file('config/keybinds.vim')
 call s:source_file('core/general.vim')
 call s:source_file('core/filetype.vim')
 call s:source_file('core/mappings.vim')
-call s:source_file('core/theme.vim')
+
+call theme#init()
 
 set secure
 
