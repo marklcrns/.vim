@@ -1,3 +1,8 @@
+" Set custom augroup
+augroup user_events
+  autocmd!
+augroup END
+
 " Specify a directory for plugins
 call plug#begin($DATA_PATH . '/plugged')
 
