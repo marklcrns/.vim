@@ -103,13 +103,13 @@ if has('pythonx')
   endif
 endif
 
-" Initialize plugin-manager and load plugins config files
-call s:source_file('config/plugins.vim')
-call s:source_file('config/keybinds.vim')
-
 call s:source_file('core/general.vim')
 call s:source_file('core/filetype.vim')
 call s:source_file('core/mappings.vim')
+
+" Initialize plugin-manager and load plugins config files
+call s:source_file('config/plugins.vim')
+call s:source_file('config/keybinds.vim')
 
 call theme#init()
 

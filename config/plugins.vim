@@ -8,6 +8,9 @@ call plug#begin($DATA_PATH . '/plugged')
 
 " Make sure you use single quotes
 
+" Syntax
+Plug 'dense-analysis/ale'
+
 " Coding Utils
 Plug 'sgur/vim-editorconfig'
 Plug 'tpope/vim-repeat'
@@ -15,8 +18,9 @@ Plug 'tyru/caw.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
 Plug 'pechorin/any-jump.vim', { 'on': 'AnyJump' }
+Plug 'tpope/vim-eunuch'
 
-" File finder
+" File Managers
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
@@ -37,6 +41,13 @@ autocmd VimEnter *
   \|   PlugInstall
   \| endif
 
+
+" ale
+" -----
+
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
+set omnifunc=ale#completion#OmniFunc
 
 " vim-editorconfig
 " -----
