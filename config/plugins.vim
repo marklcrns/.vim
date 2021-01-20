@@ -25,12 +25,12 @@ Plug 'Raimondi/delimitMate'
 " UI
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'lambdalisue/fern.vim', { 'on': 'Fern' }
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/glyph-palette.vim'
-Plug 'lambdalisue/fern-git-status.vim'
-Plug 'lambdalisue/fern-mapping-project-top.vim'
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+Plug 'lambdalisue/fern-renderer-nerdfont.vim', { 'on': 'Fern' }
+Plug 'lambdalisue/nerdfont.vim', { 'on': 'Fern' }
+Plug 'lambdalisue/glyph-palette.vim', { 'on': 'Fern' }
+Plug 'lambdalisue/fern-git-status.vim', { 'on': 'Fern' }
+Plug 'lambdalisue/fern-mapping-project-top.vim', { 'on': 'Fern' }
+Plug 'liuchengxu/vim-which-key', { 'on': 'Fern' }
 Plug 'tpope/vim-fugitive', { 'on': ['Git', 'G', 'Gdiffsplit', 'Gvdiffsplit'] }
 
 call plug#end()
