@@ -9,7 +9,7 @@ call plug#begin($DATA_PATH . '/plugged')
 " Make sure you use single quotes
 
 " Syntax
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 
 " Coding Utils
 Plug 'sgur/vim-editorconfig'
