@@ -9,6 +9,8 @@ noremap gs :ALESymbolSearch<CR>
 noremap <Leader>cn :ALERename<CR>
 noremap <Leader>ca :ALECodeAction<CR>
 
+" vim-indent-guides
+nmap <silent> <LocalLeader>si <Plug>IndentGuidesToggle
 
 " caw
 " -----
