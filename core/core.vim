@@ -89,6 +89,13 @@ call utils#source_file($VIM_PATH,'core/mappings.vim')
 call utils#source_file($VIM_PATH,'config/plugins.vim')
 call utils#source_file($VIM_PATH,'config/keybinds.vim')
 
+if get(g:, 'statusline_plugin_enable', 1)
+  call utils#source_file($VIM_PATH,'core/statusline.vim')
+endif
+if get(g:, 'tabline_plugin_enable', 1)
+  call utils#source_file($VIM_PATH,'core/tabline.vim')
+endif
+
 call theme#init()
 call utils#source_file($VIM_PATH,'core/colors.vim')
 autocmd ColorScheme * call utils#source_file($VIM_PATH,'core/colors.vim')
