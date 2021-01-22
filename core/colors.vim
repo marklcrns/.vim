@@ -9,8 +9,13 @@ highlight Comment guifg=#585858 ctermfg=240 guibg=NONE ctermbg=NONE gui=NONE cte
 " Plugin: Vim-indent-guides {{{
 " NOTE: g:indent_guides_auto_colors must be 0
 " ----------------------------------------------------------------------------
-highlight IndentGuidesOdd  guibg=#222222 ctermbg=235
-highlight IndentGuidesEven guibg=#272727 ctermbg=236
+if &background ==# 'dark'
+	highlight IndentGuidesOdd  guibg=#222222 ctermbg=235
+	highlight IndentGuidesEven guibg=#272727 ctermbg=236
+elseif &background ==# 'light'
+	highlight IndentGuidesOdd  guibg=#d2d2d2 ctermbg=235
+	highlight IndentGuidesEven guibg=#e0e0e0 ctermbg=236
+endif
 " }}}
 
 " GetColorSynatxGroup
