@@ -89,8 +89,10 @@ let g:indent_guides_exclude_filetypes = [
 			\ 'dashboard', 'codi', 'which_key'
 			\ ]
 
-let g:indent_guides_start_level = 2
+let g:indent_guides_start_level = 1
+let g:indent_guides_space_guides = 1
 let g:indent_guides_tab_guides = 1
+" Override tab display chars
 set listchars+=tab:\ \ 
 
 autocmd user_events FileType * ++once IndentGuidesEnable
@@ -247,9 +249,10 @@ let g:which_key_localmap = {
 			\ 'r'    : 'Quick run',
 			\ 's' : {
 			\ 'name' : '+ui-toggles',
+			\ 'b' : 'Toggle dark/light background',
 			\ 'e' : 'Conceal toggle',
 			\ 'i' : 'Indent guide toggle',
-			\ 's' : 'Spell checker toggle',
+			\ 't' : 'Tab char toggle',
 			\ 'v' : 'Virtualedit mode toggle',
 			\ 'w' : 'Text wrap toggle',
 			\ },
