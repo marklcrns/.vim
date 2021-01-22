@@ -10,28 +10,6 @@ let $VIM_PATH = fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
 let $DATA_PATH =
       \ expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~/.cache') . '/vim')
 
-function! s:source_file(path, ...)
-  " Source user configuration files with set/global sensitivity
-  let use_global = get(a:000, 0, ! has('vim_starting'))
-  let abspath = resolve($VIM_PATH . '/' . a:path)
-  if ! use_global
-    execute 'source' fnameescape(abspath)
-    return
-  endif
-
-  let tempfile = tempname()
-  let content = map(readfile(abspath),
-        \ "substitute(v:val, '^\\W*\\zsset\\ze\\W', 'setglobal', '')")
-  try
-    call writefile(content, tempfile)
-    execute printf('source %s', fnameescape(tempfile))
-  finally
-    if filereadable(tempfile)
-      call delete(tempfile)
-    endif
-  endtry
-endfunction
-
 " Enables 24-bit RGB color in the terminal
 if has('termguicolors')
   if empty($COLORTERM) || $COLORTERM =~# 'truecolor\|24bit'
@@ -103,15 +81,16 @@ if has('pythonx')
   endif
 endif
 
-call s:source_file('core/general.vim')
-call s:source_file('core/filetype.vim')
-call s:source_file('core/mappings.vim')
+call utils#source_file($VIM_PATH,'core/general.vim')
+call utils#source_file($VIM_PATH,'core/filetype.vim')
+call utils#source_file($VIM_PATH,'core/mappings.vim')
 
 " Initialize plugin-manager and load plugins config files
-call s:source_file('config/plugins.vim')
-call s:source_file('config/keybinds.vim')
+call utils#source_file($VIM_PATH,'config/plugins.vim')
+call utils#source_file($VIM_PATH,'config/keybinds.vim')
 
 call theme#init()
+call utils#source_file($VIM_PATH,'core/colors.vim')
 
 set secure
 
