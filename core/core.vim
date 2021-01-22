@@ -32,12 +32,12 @@ function! s:source_file(path, ...)
   endtry
 endfunction
 
-" " Enables 24-bit RGB color in the terminal
-" if has('termguicolors')
-"   if empty($COLORTERM) || $COLORTERM =~# 'truecolor\|24bit'
-"     set termguicolors
-"   endif
-" endif
+" Enables 24-bit RGB color in the terminal
+if has('termguicolors')
+  if empty($COLORTERM) || $COLORTERM =~# 'truecolor\|24bit'
+    set termguicolors
+  endif
+endif
 
 " Disable vim distribution plugins
 let g:loaded_gzip = 1
