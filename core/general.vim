@@ -66,8 +66,8 @@ endif
 set nobackup
 set nowritebackup
 set undofile noswapfile
-set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp
-set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp
+set directory=$DATA_PATH/swap/,$DATA_PATH,~/tmp,/var/tmp,/tmp
+set undodir=$DATA_PATH/undo/,$DATA_PATH,~/tmp,/var/tmp,/tmp
 set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp
 set viewdir=$DATA_PATH/view/
 " Use the coc-spell-checker to do this
@@ -209,7 +209,6 @@ endif
 " Editor UI {{{
 set number              " Show number
 set relativenumber      " Show relative number
-set cursorline          " Show line highlight
 set noshowmode          " Don't show mode on bottom
 set noruler             " Disable default status ruler
 set shortmess=aoOTI     " Shorten messages and don't show intro
@@ -279,5 +278,4 @@ if has('termguicolors') && &termguicolors
     set winblend=10
   endif
 endif
-augroup END
 " }}}
