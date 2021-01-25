@@ -249,7 +249,7 @@ set display=lastline
 
 if has('folding') && has('vim_starting')
   set foldenable
-  set foldmethod=indent
+  set foldmethod=syntax
   set foldlevelstart=99
 endif
 
@@ -278,4 +278,41 @@ if has('termguicolors') && &termguicolors
     set winblend=10
   endif
 endif
+
+augroup CursorUI
+  let ft_exclusion = '^\(denite\|clap_\)'
+  autocmd!
+  " Disable cursorline and cursorcolumn on InsertEnter, WinLeave
+  autocmd InsertEnter * if &ft !~# ft_exclusion |
+        \ setlocal nocursorline nocursorcolumn
+        \ | endif
+  autocmd WinLeave * setlocal nocursorline nocursorcolumn
+  " Enable cursorline and cursorcolumn on InsertLeave, WinEnter, BufWinEnter
+  " and if activated
+  autocmd InsertLeave * if (g:activate_cursorline == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorline
+        \ | endif
+  autocmd InsertLeave * if (g:activate_cursorcolumn == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorcolumn
+        \ | endif
+  autocmd WinEnter * if (g:activate_cursorline == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorline
+        \ | endif
+  autocmd WinEnter * if (g:activate_cursorcolumn == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorcolumn
+        \ | endif
+  autocmd BufWinEnter * if (g:activate_cursorline == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorline
+        \ | endif
+  autocmd BufWinEnter * if (g:activate_cursorcolumn == 1) && (&ft !~# ft_exclusion) |
+        \ setlocal cursorcolumn
+        \ | endif
+
+  if g:activate_cursorline
+    set cursorline
+  endif
+  if g:activate_cursorcolumn
+    set cursorcolumn
+  endif
+augroup END
 " }}}
