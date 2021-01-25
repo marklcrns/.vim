@@ -40,6 +40,10 @@ let g:loaded_netrwPlugin = 1
 let g:loaded_netrwSettings = 1
 let g:loaded_netrwFileHandlers = 1
 
+" Set global variables
+let g:activate_cursorline = 1
+let g:activate_cursorcolumn = 0
+
 if has('vim_starting')
   " When using VIMINIT trick for exotic MYVIMRC locations, add path now.
   if &runtimepath !~# $VIM_PATH
