@@ -15,7 +15,10 @@
 "     same buffer to be deleted.
 "   - Auto delete empty buffers (will close tabs and window splits).
 "   - Prevents from deleting buffer if modified.
-"   - Handles fugitive diff splits; closing all fugitive blob buffers.
+"   - Handles diff splits, closing all blob buffers and extra splits
+"     automatically.
+"   - Plugins Support: vim-fugitive, gina, goyo, vim-mundo, qf, fern, nvim-tree,
+"		  minimap, vista.
 "
 " Usage:
 "   :SmartBufClose
@@ -40,8 +43,6 @@ let g:smartbufclose_excluded_filetypes = [
 			\ 'fugitive', 'gitcommit' 
 			\ ]
 
-
-
 function! s:CleanEmptyBuffers()
 	let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")')
 	if !empty(buffers)
@@ -60,7 +61,7 @@ function! s:ShiftAllWindowsBufferPointingToBuffer(buffer)
 			" Store active window nr to restore later
 			let curWin = winnr()
 
-			" Loop through windows pointing to curBuf
+			" Loop over windows pointing to curBuf
 			let winnr = bufwinnr(a:buffer)
 			while (winnr >= 0)
 				" Go to window and switch to next buffer
@@ -128,38 +129,16 @@ function! s:DeleteBufPreservingSplit(bufNr)
 endfunction
 
 
-" Return true if has fugitive buffer open
-function! s:HasFugitiveBuf()
-	for bufferNum in range(1, bufnr('$'))
-		if bufname(bufferNum) =~ '^fugitive:'
-			return v:true
+" Exits diff mode no matter where you are
+" Optional arg to close specific plugin blob buffer
+function! s:HandleDiffBlobBuffer()
+	" Loop over buffers
+	for bufNr in range(1, bufnr('$'))
+		if getwinvar(bufwinnr(bufNr), '&diff') == 1
+			" Go to the diff buffer window and quit
+			execute bufwinnr(bufNr) . 'wincmd w | q'
 		endif
 	endfor
-	return v:false
-endfunction
-
-
-" If in fugitive blob buffer, close fugitive blob buffer and everything
-" related to it, else just close all fugitive blob buffer
-function! s:HandleFugitiveDiffBuffers()
-	if bufname('%') =~ '^fugitive:'
-		let fugitiveBlobBufPath= expand('#' . bufnr('%') . ':p')
-		" Delete all buffer with similar path to fugitive blob buffer
-		for bufferNum in range(1, bufnr('$'))
-			if bufname(bufferNum) =~ fugitiveBlobBufPath || bufname(bufferNum) =~ '^fugitive:'
-				silent execute 'bd ' . bufferNum
-			endif
-		endfor
-		" Delete fugitive blob buffer
-		call s:DeleteBufPreservingSplit(bufnr('%'))
-	else
-		" Delete all fugitive blob buffers
-		for bufferNum in range(1, bufnr('$'))
-			if bufname(bufferNum) =~ '^fugitive:'
-				silent execute 'bd ' . bufferNum
-			endif
-		endfor
-	endif
 endfunction
 
 
@@ -172,24 +151,30 @@ function! <SID>SmartBufClose()
 	" Store listed buffers count
 	let curBufCount = len(getbufinfo({'buflisted':1}))
 
-	" Immediately quit/wipe certain buffers
+	" Immediately quit/wipe certain buffers or filetype
 	if &buftype ==# 'terminal'
 		silent execute 'bw!'
 		return
-	elseif &filetype ==# 'gitcommit'
-		silent execute 'q!'
+	elseif &diff
+		call s:HandleDiffBlobBuffer()
 		return
-	elseif &filetype ==# 'git' || &filetype ==# 'qf'
+	elseif exists("#goyo")
+		" Hacky workaround to delete buffer while in Goyo mode without exiting or
+		" to turn off Goyo mode when only one buffer exists
+		if curBufCount ># 1
+			silent execute 'bn | bd#'
+		else
+			silent execute 'q | bn'
+			call s:CleanEmptyBuffers()
+		endif
+		return
+	elseif &filetype =~ 'gitcommit\|gina-\|gina-\|gina-\|diff' ||
+				\ (!&modifiable || &readonly || curBufName ==# '')
+		silent execute 'q'
+		return
+	elseif &filetype =~ 'git\|qf'
 		silent execute 'bd'
 		return
-	elseif (!&modifiable || &readonly || curBufName ==# '')
-		silent execute 'q!'
-		return
-	elseif &diff
-		if s:HasFugitiveBuf()
-			call s:HandleFugitiveDiffBuffers()
-			return
-		endif
 	elseif ((curBufCount ==# 1 && curBufName ==# '') || &buftype ==# 'nofile') " Quit when only buffer and empty
 		" Close all splits if exists, else quit vim
 		if s:CloseAllModifiableWin(g:smartbufclose_excluded_filetypes) ==# 0
@@ -206,5 +191,50 @@ function! <SID>SmartBufClose()
 	endif
 endfunction
 
-
 command! -nargs=0 SmartBufClose call <SID>SmartBufClose()
+
+
+" DEPRECATED: For code reference only
+" -----
+" " Return true if has fugitive buffer open
+" function! s:HasFugitiveDiffBuf()
+" 	for bufferNum in range(1, bufnr('$'))
+" 		if bufname(bufferNum) =~ '^fugitive:'
+" 			return v:true
+" 		endif
+" 	endfor
+" 	return v:false
+" endfunction
+"
+" " Return true if has plugin buffer open
+" function! s:HasPluginDiffBuf(pluginName)
+" 	for bufferNum in range(1, bufnr('$'))
+" 		if bufname(bufferNum) =~ '^' . a:pluginName . ':'
+" 			return v:true
+" 		endif
+" 	endfor
+" 	return v:false
+" endfunction
+"
+" " If in fugitive blob buffer, close fugitive blob buffer and everything
+" " related to it, else just close all fugitive blob buffer
+" function! s:HandleFugitiveDiffBuffers()
+" 	if bufname('%') =~ '^fugitive:'
+" 		let fugitiveBlobBufPath= expand('#' . bufnr('%') . ':p')
+" 		" Delete all buffer with similar path to fugitive blob buffer
+" 		for bufferNum in range(1, bufnr('$'))
+" 			if bufname(bufferNum) =~ fugitiveBlobBufPath || bufname(bufferNum) =~ '^fugitive:'
+" 				silent execute 'bd ' . bufferNum
+" 			endif
+" 		endfor
+" 		" Delete fugitive blob buffer
+" 		call s:DeleteBufPreservingSplit(bufnr('%'))
+" 	else
+" 		" Delete all fugitive blob buffers
+" 		for bufferNum in range(1, bufnr('$'))
+" 			if bufname(bufferNum) =~ '^fugitive:'
+" 				silent execute 'bd ' . bufferNum
+" 			endif
+" 		endfor
+" 	endif
+" endfunction
