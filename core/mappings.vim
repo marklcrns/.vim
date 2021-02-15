@@ -198,25 +198,22 @@ function! WindowsManagementMappings()
 	nnoremap <silent> [Window]sv :split<CR>:wincmd p<CR>:e#<CR>
 	nnoremap <silent> [Window]sg :vsplit<CR>:wincmd p<CR>:e#<CR>
 	" Resize splits
-	nnoremap [Window]k :resize -3<CR>
-	nnoremap [Window]j :resize +3<CR>
-	nnoremap [Window]h :vertical resize -3<CR>
-	nnoremap [Window]l :vertical resize +3<CR>
-	nnoremap [Window]q :close<CR>
+	nnoremap <silent> [Window]k :resize -3<CR>
+	nnoremap <silent> [Window]j :resize +3<CR>
+	nnoremap <silent> [Window]h :vertical resize -3<CR>
+	nnoremap <silent> [Window]l :vertical resize +3<CR>
+	nnoremap <silent> [Window]q :close<CR>
+	" Switch between splits
+	nnoremap <silent> [Window]H <C-w>h
+	nnoremap <silent> [Window]L <C-w>l
+	nnoremap <silent> [Window]J <C-w>j
+	nnoremap <silent> [Window]K <C-w>k
+	nnoremap <silent> [Window]z  :<C-u>call <SID>custom_zoom()<CR>
+
 	nnoremap <Up>      :resize -1<CR>
 	nnoremap <Down>    :resize +1<CR>
 	nnoremap <Left>    :vertical resize -1<CR>
 	nnoremap <Right>   :vertical resize +1<CR>
-	" Switch between splits
-	nnoremap <M-h> <C-w>h
-	nnoremap <M-l> <C-w>l
-	nnoremap <M-j> <C-w>j
-	nnoremap <M-k> <C-w>k
-
-	" Deletes buffer but keeps the split
-	" Ref: https://stackoverflow.com/a/19619038/11850077
-	noremap [Window]d :b#<bar>bd#<CR>
-	nnoremap <silent> [Window]z  :<C-u>call <SID>custom_zoom()<CR>
 endfunction
 " }}} FILE AND WINDOWS MAPPINGS
 
@@ -265,9 +262,9 @@ function! CommandMappings()
 	" print insert buffer file directory path
 	cnoremap <C-t> <C-R>=expand("%:p:h") . "/" <CR>
 	" Easy wildcharm navigation
-	cnoremap <expr><C-j> pumvisible() ? "\<C-n>" : nr4char(&wildcharm)
-	cnoremap <expr><C-k> pumvisible() ? "\<C-p>" : nr3char(&wildcharm)
-	cnoremap <expr><Tab> pumvisible() ? "\<C-e>".nr2char(&wildcharm) : nr2char(&wildcharm)
+	cnoremap <expr><C-j> pumvisible() ? "\<C-n>" : nr2char(&wildcharm)
+	cnoremap <expr><C-k> pumvisible() ? "\<C-p>" : nr2char(&wildcharm)
+	cnoremap <expr><Tab> pumvisible() ? "\<C-y>" . nr2char(&wildcharm) : nr2char(&wildcharm)
 endfunction
 
 function! YankPasteMappings()
@@ -377,32 +374,54 @@ function! DiffMappings()
 	exe 'nnoremap <Leader>idh :diffsplit '.expand("%:p:h").'/'.nr2char(&wildcharm)
 	exe 'nnoremap <Leader>idV :vert diffsplit $HOME/'.nr2char(&wildcharm)
 	exe 'nnoremap <Leader>idH :diffsplit $HOME/'.nr2char(&wildcharm)
-	" Git mappings for mergetools or diff mode
-	" Add the following to .gitconfig, then run `git mergetool nvimdiff <MERGE_CONFLICT_FILE>`
-	" [merge]
-	"   tool = nvimdiff
-	" [mergetool "nvimdiff"]
-	"   cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
-	" [mergetool]
-	"   prompt = true
-	nnoremap <expr> dob &diff ? ':diffget BASE<CR>'   : ''
-	nnoremap <expr> dob &diff ? ':diffget BASE<CR>'   : ''
-	nnoremap <expr> dol &diff ? ':diffget LOCAL<CR>'  : ''
-	nnoremap <expr> dor &diff ? ':diffget REMOTE<CR>' : ''
-	" Quit nvim with an error code. Useful when aborting git mergetool or git commit
-	nnoremap <expr> cq  &diff ? ':cquit<CR>'          : ''
+
+	nmap <silent> <Leader>idd :DiffOrig<CR>
+
 	function! PrintMergeDiffMappings()
+		" Only display once if g:custom_diff_enable = 0
+		if get(g:, 'custom_diff_enable', 0) ==# 1
+			return
+		endif
+
+		" Git mappings for mergetools (also works for vimdiff, i.e. LOCAL for
+		" original code, and REMOTE for new changes)
+		"
+		" Add the following to .gitconfig, then run `git mergetool nvimdiff <MERGE_CONFLICT_FILE>`
+		" [merge]
+		"   tool = nvimdiff
+		" [mergetool "nvimdiff"]
+		"   cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+		" [mergetool]
+		"   prompt = true
+
+		" Diff mappings only when in diff buffer
+		nnoremap <expr> dob &diff ? ':diffget BASE<CR>'   : ''
+		nnoremap <expr> dol &diff ? ':diffget LOCAL<CR>'  : ''
+		nnoremap <expr> dor &diff ? ':diffget REMOTE<CR>' : ''
+		" Quit nvim with an error code. Useful when aborting git mergetool or git commit
+		nnoremap <expr> cq  &diff ? ':cquit<CR>'          : ''
+
+		echom " "
 		echom "dob :diffget BASE"
 		echom "dol :diffget LOCAL"
 		echom "dor :diffget REMOTE"
 		echom "cq  :cquit"
 		echom "]c  Next conflict"
 		echom "[c  Previous conflict"
-		echom " "
-		echom "To view these again, type :messages or :call PrintMergeDiffMappings()"
+
+		" Only shows the first time this function is called
+		if !exists("g:custom_diff_enable")
+			echohl WildMenu | echom "To view these again, type :messages or :call PrintMergeDiffMappings()" | echohl NONE
+		endif
+
+		let g:custom_diff_enable = 1
 	endfunction
 
-	nmap <silent> <Leader>idd :DiffOrig<CR>
+	" Display diff mappings on diff mode
+	augroup user_diffmode
+		autocmd!
+		autocmd OptionSet diff if v:option_old == 0 && v:option_new != 0 | call PrintMergeDiffMappings() | else | let g:custom_diff_enable = 0 | endif
+	augroup END
 endfunction
 
 function! FoldsMappings()
@@ -413,22 +432,10 @@ function! FoldsMappings()
 	" Toggle fold all
 	nnoremap <expr> zm &foldlevel ? 'zM' :'zR'
 	" Jumping to next closed fold
-	" Ref: https://stackoverflow.com/a/9407015/11850077
-	function! NextClosedFold(dir)
-		let cmd = 'norm!z' . a:dir
-		let view = winsaveview()
-		let [l0, l, open] = [0, view.lnum, 1]
-		while l != l0 && open
-			exe cmd
-			let [l0, l] = [l, line('.')]
-			let open = foldclosed(l) < 0
-		endwhile
-		if open
-			call winrestview(view)
-		endif
-	endfunction
-	nnoremap <silent> zj :call NextClosedFold('j')<cr>
-	nnoremap <silent> zk :call NextClosedFold('k')<cr>
+	nnoremap <silent> zj :<C-u>call <SID>next_closed_fold('j')<cr>
+	nnoremap <silent> zk :<C-u>call <SID>next_closed_fold('k')<cr>
+	nnoremap <silent> ]z :<C-u>call <SID>next_open_fold('j')<cr>
+	nnoremap <silent> [z :<C-u>call <SID>next_open_fold('k')<cr>
 endfunction
 
 function! SessionMappings()
@@ -524,54 +531,81 @@ endfunction
 " Append '.md' to clipboard register yanked file path and :edit from current directory
 nnoremap <Leader>;wm :cd %:h<bar>execute "e " . expand("%:p:h") . '/' . getreg('+') . '.md'<bar>echo 'Opened ' . expand("%:p")<CR>
 
-if &cursorline
-	let g:activate_cursorline = 1
-else
-	let g:activate_cursorline = 0
-endif
-if &cursorcolumn
-	let g:activate_cursorcolumn = 1
-else
-	let g:activate_cursorcolumn = 0
-endif
+
+" Ref: https://stackoverflow.com/a/9407015/11850077
+function! s:next_closed_fold(direction)
+	let cmd = 'norm!z' . a:direction
+	let view = winsaveview()
+	let [l0, l, open] = [0, view.lnum, 1]
+	while l != l0 && open
+		exe cmd
+		let [l0, l] = [l, line('.')]
+		let open = foldclosed(l) < 0
+	endwhile
+	if open
+		call winrestview(view)
+	endif
+endfunction
+
+" Ref: https://vim.fandom.com/wiki/Navigate_to_the_next_open_fold
+function! s:next_open_fold(direction)
+	if (a:direction == "j")
+		normal zj
+		let start = line('.')
+		while foldclosed(start) != -1
+			let start = start + 1
+		endwhile
+	else
+		normal zk
+		let start = line('.')
+		while foldclosed(start) != -1
+			let start = start - 1
+		endwhile
+	endif
+	call cursor(start, 0)
+endfunction
+
 " Toggle cursorline
 function! s:toggle_cursorline()
-	if g:activate_cursorline
+	if get(g:, 'custom_cursorline_enable', 1)
 		set nocursorline
-		let g:activate_cursorline = 0
+		let g:custom_cursorline_enable = 0
 		echom 'Cursorline deactivated'
 	else
 		set cursorline
-		let g:activate_cursorline = 1
+		let g:custom_cursorline_enable = 1
 		echom 'Cursorline activated'
 	endif
 endfunction
+
 " Toggle cursorcolumn
 function! s:toggle_cursorcolumn()
-	if g:activate_cursorcolumn
+	if get(g:, 'custom_cursorcolumn_enable', 0)
 		set nocursorcolumn
-		let g:activate_cursorcolumn = 0
+		let g:custom_cursorcolumn_enable = 0
 		echom 'Cursorcolumn deactivated'
 	else
 		set cursorcolumn
-		let g:activate_cursorcolumn = 1
+		let g:custom_cursorcolumn_enable = 1
 		echom 'Cursorcolumn activated'
 	endif
 endfunction
+
 " Toggle cursorline and cursorcolumn
 function! s:toggle_crosshair()
 	if (&cursorline || &cursorcolumn)
 		set nocursorline nocursorcolumn
-		let g:activate_cursorline = 0
-		let g:activate_cursorcolumn = 0
+		let g:custom_cursorline_enable = 0
+		let g:custom_cursorcolumn_enable = 0
 		echom 'Crosshair activated'
 	else
 		set cursorline cursorcolumn
-		let g:activate_cursorline = 1
-		let g:activate_cursorcolumn = 1
+		let g:custom_cursorline_enable = 1
+		let g:custom_cursorcolumn_enable = 1
 		echom 'Crosshair deactivated'
 	endif
 endfunction
+
 " Toggle conceallevel
 function! s:toggle_conceal2()
 	if &conceallevel
@@ -607,12 +641,12 @@ endfunction
 " Toggle Tab Char
 function! s:toggle_tabchar()
 	if &lcs =~ 'tab:  '
-		set lcs-=tab:\ \ 
-		set lcs+=tab:\▏\ 
+		execute 'set lcs-=tab:\ \ '
+		execute 'set lcs+=tab:\▏\ '
 		echom 'Tabchar set'
 	elseif &lcs =~ 'tab:▏ '
-		set lcs-=tab:\▏\ 
-		set lcs+=tab:\ \ 
+		execute 'set lcs-=tab:\▏\ '
+		execute 'set lcs+=tab:\ \ '
 		echom 'Tabchar default'
 	endif
 endfunction
@@ -638,14 +672,6 @@ function! s:toggle_background()
 		else
 			echo 'Set colorscheme to '.&background.' mode'
 		endif
-	endif
-endfunction
-
-function! s:window_empty_buffer()
-	let l:current = bufnr('%')
-	if ! getbufvar(l:current, '&modified')
-		enew
-		silent! execute 'bdelete '.l:current
 	endif
 endfunction
 
@@ -688,3 +714,4 @@ call SessionMappings()
 call TextManipulationMappings()
 " Settings Toggle Mappings
 call SettingsToggleMappings()
+
