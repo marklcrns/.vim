@@ -46,4 +46,3 @@ augroup user_theme
   endif
 augroup END
 
-
