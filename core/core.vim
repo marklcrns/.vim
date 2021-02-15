@@ -5,14 +5,7 @@ if &compatible
 endif
 
 " Set main configuration directory as parent directory
-let $VIM_PATH =
-			\ get(g:, 'etc_vim_path',
-			\   exists('*stdpath') ? stdpath('config') :
-			\   ! empty($MYVIMRC) ? fnamemodify(expand($MYVIMRC), ':h') :
-			\   ! empty($VIMCONFIG) ? expand($VIMCONFIG) :
-			\   ! empty($VIM_PATH) ? expand($VIM_PATH) :
-			\   fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
-			\ )
+let $VIM_PATH = fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
 
 " Set data/cache directory as $XDG_CACHE_HOME/vim
 let $DATA_PATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~/.cache') . '/vim')
