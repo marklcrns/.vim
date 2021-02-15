@@ -107,7 +107,7 @@ if has('vim_starting')
 
 	" Vim only, Linux terminal settings
 	if ! has('nvim') && ! has('gui_running') && ! has('win32') && ! has('win64')
-		call utils#source_file('core/terminal.vim')
+		call utils#source_file($VIM_PATH, 'core/terminal.vim')
 	endif
 endif
 
