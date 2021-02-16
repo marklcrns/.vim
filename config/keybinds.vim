@@ -93,3 +93,11 @@ nnoremap <Leader>gG :<C-u>Glog --grep= -- %<Left><Left><Left><Left><Left>
 nnoremap <Leader>gr :<C-u>Git reset<CR>
 nnoremap <Leader>gs :<C-u>Gstatus<CR>
 nnoremap <Leader>gp :<C-u>Gpush<CR>
+
+" Fern
+" -----
+if dein#tap('fern.vim')
+	nnoremap <silent> <Leader>ee :<C-u>Fern . -drawer -keep -toggle -width=35 -reveal=%<CR><C-w>=
+	nnoremap <silent> <Leader>ea :<C-u>Fern . -drawer -keep -toggle -width=35<CR>
+endif
+
