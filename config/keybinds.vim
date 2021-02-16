@@ -1,3 +1,27 @@
+" Plugin key settings
+let s:enable_whichkey = dein#tap('vim-which-key')
+
+if s:enable_whichkey
+	function! InitWhickey()
+		let s:leader_key=substitute(get(g:,"mapleader","\\"), ' ', '<Space>', '')
+		let s:localleader_key= get(g:,'maplocalleader',';')
+		execute 'nnoremap <silent> <Leader> :<c-u>WhichKey "'.s:leader_key.'"<CR>'
+		execute 'vnoremap <silent> <Leader> :<c-u>WhichKeyVisual "'.s:leader_key.'"<CR>'
+		execute 'nnoremap <silent> <LocalLeader> :<c-u>WhichKey "' .s:localleader_key.'"<CR>'
+		execute 'vnoremap <silent> <LocalLeader> :<c-u>WhichKeyVisual "'.s:localleader_key.'"<CR>'
+		execute 'nnoremap <silent> [ :<c-u>WhichKey "["<CR>'
+		execute 'nnoremap <silent> ] :<c-u>WhichKey "]"<CR>'
+	endfunction
+	call InitWhickey()
+
+	" Extra mappings
+	nnoremap <silent> ?s :<c-u>WhichKey 's'<CR>
+	vnoremap <silent> ?s :<c-u>WhichKeyVisual 's'<CR>
+	nnoremap <silent> ?d :<c-u>WhichKey 'd'<CR>
+	vnoremap <silent> ?d :<c-u>WhichKeyVisual 'd'<CR>
+	nnoremap <silent> ?g :<c-u>WhichKey 'g'<CR>
+	vnoremap <silent> ?g :<c-u>WhichKeyVisual 'g'<CR>
+endif
 
 " ale
 " -----
@@ -48,48 +72,50 @@ endfunction
 autocmd FileType * call InitCaw()
 call InitCaw()
 
-" WhichKey
-" -----
-
-nnoremap <silent> <Leader>      :<c-u>WhichKey '<Space>'<CR>
-vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<Space>'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey ';'<CR>
-vnoremap <silent> <localleader> :<c-u>WhichKeyVisual ';'<CR>
-nnoremap <silent> [             :<c-u>WhichKey '['<CR>
-nnoremap <silent> ]             :<c-u>WhichKey ']'<CR>
-nnoremap <silent> ?s            :<c-u>WhichKey 's'<CR>
-vnoremap <silent> ?s            :<c-u>WhichKeyVisual 's'<CR>
-nnoremap <silent> ?d            :<c-u>WhichKey 'd'<CR>
-vnoremap <silent> ?d            :<c-u>WhichKeyVisual 'd'<CR>
-nnoremap <silent> ?g            :<c-u>WhichKey 'g'<CR>
-vnoremap <silent> ?g            :<c-u>WhichKeyVisual 'g'<CR>
-
 " any-jump
 " -----
-"
+
 nnoremap <silent> <leader>ab :AnyJumpBack<CR>
 nnoremap <silent> <Leader>aj :AnyJump<CR>
 xnoremap <silent> <Leader>aj :AnyJumpVisual<CR>
 nnoremap <silent> <leader>al :AnyJumpLastResults<CR>
 
-" fugitive
+if s:enable_whichkey
+	let g:which_key_map['a'] = {
+				\ 'name' : '+any-jump',
+				\ 'b' : 'Open previously opened file',
+				\ 'j' : 'Open jump to definition window',
+				\ 'l' : 'Open last jump to definition result',
+				\ }
+endif
+
+" Gina
 " -----
 
-nnoremap <Leader>gb :<C-u>Git blame<CR>
-nnoremap <Leader>gdc :<C-u>Gdiff --cached<CR>
-nnoremap <Leader>gdd :<C-u>Gdiff<Space>
-nnoremap <Leader>gdt :<C-u>Git difftool<CR>
-nnoremap <Leader>gds :<C-u>Gdiffsplit!<CR>
-nnoremap <Leader>gdh :<C-u>Ghdiffsplit<CR>
-nnoremap <Leader>gdv :<C-u>Gvdiffsplit<CR>
-nnoremap <Leader>gl :<C-u>Glog<CR>
-nnoremap <Leader>gL :<C-u>0Glog<CR>
-nnoremap <Leader>gF :<C-u>Gfetch<CR>
-nnoremap <Leader>gg :<C-u>Ggrep<Space>
-nnoremap <Leader>gG :<C-u>Glog --grep= -- %<Left><Left><Left><Left><Left>
-nnoremap <Leader>gr :<C-u>Git reset<CR>
-nnoremap <Leader>gs :<C-u>Gstatus<CR>
-nnoremap <Leader>gp :<C-u>Gpush<CR>
+nnoremap <silent> <Leader>ga :Gina add %:p<CR>
+nnoremap <silent> <Leader>gA :Gina add .<CR>
+nnoremap <silent> <leader>gb :Gina blame --width=40<CR>
+nnoremap <silent> <Leader>gc :Gina commit<CR>
+nnoremap <silent> <leader>gd :Gina compare<CR>
+nnoremap <silent> <Leader>gF :Gina! fetch<CR>
+nnoremap <silent> <Leader>gl :Gina log --graph --all<CR>
+nnoremap <silent> <leader>go :,Gina browse :<CR>
+vnoremap <silent> <leader>go :Gina browse :<CR>
+nnoremap <silent> <Leader>gp :Gina! push<CR>
+nnoremap <silent> <leader>gs :Gina status -s<CR>
+
+if s:enable_whichkey
+	let g:which_key_map['g']['a'] = 'Stage buffer'
+	let g:which_key_map['g']['A'] = 'Stage all changes'
+	let g:which_key_map['g']['b'] = 'Open git blame'
+	let g:which_key_map['g']['c'] = 'Commit staged changes'
+	let g:which_key_map['g']['d'] = 'Diff buffer'
+	let g:which_key_map['g']['F'] = 'Fetch remote'
+	let g:which_key_map['g']['l'] = 'Display git log'
+	let g:which_key_map['g']['o'] = 'Open repo in browser'
+	let g:which_key_map['g']['p'] = 'Push commits'
+	let g:which_key_map['g']['s'] = 'Display git status'
+endif
 
 " Fern
 " -----
