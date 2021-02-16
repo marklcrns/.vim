@@ -46,6 +46,10 @@ git clone https://github.com/vim/vim.git
 
 # Export path to local bin if not already
 export PATH=$HOME/.local/bin:$PATH
+
+# Set local vim as default editor
+export VISUAL=$HOME/.local/bin/vim
+export EDITOR=$VISUAL
 ```
 
 Check for vim installation
