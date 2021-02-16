@@ -9,9 +9,6 @@ noremap gs :ALESymbolSearch<CR>
 noremap <Leader>cn :ALERename<CR>
 noremap <Leader>ca :ALECodeAction<CR>
 
-" vim-indent-guides
-nmap <silent> <LocalLeader>si <Plug>IndentGuidesToggle
-
 " caw
 " -----
 
@@ -96,8 +93,6 @@ nnoremap <Leader>gp :<C-u>Gpush<CR>
 
 " Fern
 " -----
-if dein#tap('fern.vim')
-	nnoremap <silent> <Leader>ee :<C-u>Fern . -drawer -keep -toggle -width=35 -reveal=%<CR><C-w>=
-	nnoremap <silent> <Leader>ea :<C-u>Fern . -drawer -keep -toggle -width=35<CR>
-endif
+nnoremap <silent> <Leader>ee :<C-u>Fern . -drawer -keep -toggle -width=35 -reveal=%<CR><C-w>=
+nnoremap <silent> <Leader>ea :<C-u>Fern . -drawer -keep -toggle -width=35<CR>
 
