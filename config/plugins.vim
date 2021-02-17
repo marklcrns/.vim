@@ -17,17 +17,17 @@ Plug 'tpope/vim-repeat'
 Plug 'tyru/caw.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'Raimondi/delimitMate'
-Plug 'pechorin/any-jump.vim', { 'on': 'AnyJump' }
+Plug 'pechorin/any-jump.vim'
 
 " File Managers
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'lambdalisue/fern.vim', { 'on': ['Fern'] }
-Plug 'lambdalisue/fern-git-status.vim', { 'on': ['Fern'] }
-Plug 'lambdalisue/fern-mapping-project-top.vim', { 'on': ['Fern'] }
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/fern-mapping-project-top.vim'
 
 " Git
-Plug 'lambdalisue/gina.vim', { 'on': ['Gina'] }
+Plug 'lambdalisue/gina.vim'
 
 " Misc
 Plug 'liuchengxu/vim-which-key'

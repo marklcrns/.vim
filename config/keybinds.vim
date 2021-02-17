@@ -1,10 +1,8 @@
 " Plugin key settings
 function! PlugLoaded(name)
-	return (
-				\ has_key(g:plugs, a:name) &&
-				\ isdirectory(g:plugs[a:name].dir) &&
-				\ stridx(&rtp, g:plugs[a:name].dir) >= 0)
+	return (has_key(g:plugs, a:name))
 endfunction
+
 let s:enable_whichkey = PlugLoaded('vim-which-key')
 
 if s:enable_whichkey
