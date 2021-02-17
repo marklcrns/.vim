@@ -1,5 +1,11 @@
 " Plugin key settings
-let s:enable_whichkey = dein#tap('vim-which-key')
+function! PlugLoaded(name)
+	return (
+				\ has_key(g:plugs, a:name) &&
+				\ isdirectory(g:plugs[a:name].dir) &&
+				\ stridx(&rtp, g:plugs[a:name].dir) >= 0)
+endfunction
+let s:enable_whichkey = PlugLoaded('vim-which-key')
 
 if s:enable_whichkey
 	function! InitWhickey()
@@ -23,102 +29,103 @@ if s:enable_whichkey
 	vnoremap <silent> ?g :<c-u>WhichKeyVisual 'g'<CR>
 endif
 
-" ale
-" -----
-nmap <silent> gn <Plug>(ale_next)
-nmap <silent> gp <Plug>(ale_previous)
-noremap gd :ALEGoToDefinition<CR>
-noremap gr :ALEFindReferences<CR>
-noremap gs :ALESymbolSearch<CR>
-noremap <Leader>cn :ALERename<CR>
-noremap <Leader>ca :ALECodeAction<CR>
-
-" caw
-" -----
-
-function! InitCaw() abort
-  if ! (&l:modifiable && &buftype ==# '')
-    silent! nunmap <buffer> <Leader>V
-    silent! xunmap <buffer> <Leader>V
-    silent! nunmap <buffer> <Leader>v
-    silent! xunmap <buffer> <Leader>v
-    silent! nunmap <buffer> gc
-    silent! xunmap <buffer> gc
-    silent! nunmap <buffer> gcc
-    silent! xunmap <buffer> gcc
-  else
-    xmap <buffer> <Leader>// <Plug>(caw:hatpos:toggle)
-    nmap <buffer> <Leader>// <Plug>(caw:hatpos:toggle)
-    xmap <buffer> <Leader>/a <Plug>(caw:dollarpos:comment)
-    nmap <buffer> <Leader>/a <Plug>(caw:dollarpos:comment)
-    xmap <buffer> <Leader>/b <Plug>(caw:box:comment)
-    nmap <buffer> <Leader>/b <Plug>(caw:box:comment)
-    xmap <buffer> <Leader>/c <Plug>(caw:hatpos:comment)
-    nmap <buffer> <Leader>/c <Plug>(caw:hatpos:comment)
-    xmap <buffer> <Leader>/j <Plug>(caw:jump:comment-next)
-    nmap <buffer> <Leader>/j <Plug>(caw:jump:comment-next)
-    xmap <buffer> <Leader>/k <Plug>(caw:jump:comment-prev)
-    nmap <buffer> <Leader>/k <Plug>(caw:jump:comment-prev)
-    xmap <buffer> <Leader>/i <Plug>(caw:zeropos:comment)
-    nmap <buffer> <Leader>/i <Plug>(caw:zeropos:comment)
-    xmap <buffer> <Leader>/w <Plug>(caw:wrap:toggle)
-    nmap <buffer> <Leader>/w <Plug>(caw:wrap:toggle)
-    nmap <buffer> gc <Plug>(caw:prefix)
-    xmap <buffer> gc <Plug>(caw:prefix)
-    nmap <buffer> gcc <Plug>(caw:hatpos:toggle)
-    xmap <buffer> gcc <Plug>(caw:hatpos:toggle)
-  endif
-endfunction
-autocmd FileType * call InitCaw()
-call InitCaw()
-
-" any-jump
-" -----
-
-nnoremap <silent> <leader>ab :AnyJumpBack<CR>
-nnoremap <silent> <Leader>aj :AnyJump<CR>
-xnoremap <silent> <Leader>aj :AnyJumpVisual<CR>
-nnoremap <silent> <leader>al :AnyJumpLastResults<CR>
-
-if s:enable_whichkey
-	let g:which_key_map['a'] = {
-				\ 'name' : '+any-jump',
-				\ 'b' : 'Open previously opened file',
-				\ 'j' : 'Open jump to definition window',
-				\ 'l' : 'Open last jump to definition result',
-				\ }
+if PlugLoaded('ale')
+	nmap <silent> gn <Plug>(ale_next)
+	nmap <silent> gp <Plug>(ale_previous)
+	noremap gd :ALEGoToDefinition<CR>
+	noremap gr :ALEFindReferences<CR>
+	noremap gs :ALESymbolSearch<CR>
+	noremap <Leader>cn :ALERename<CR>
+	noremap <Leader>ca :ALECodeAction<CR>
 endif
 
-" Gina
-" -----
-
-nnoremap <silent> <Leader>ga :Gina add %:p<CR>
-nnoremap <silent> <Leader>gA :Gina add .<CR>
-nnoremap <silent> <leader>gb :Gina blame --width=40<CR>
-nnoremap <silent> <Leader>gc :Gina commit<CR>
-nnoremap <silent> <leader>gd :Gina compare<CR>
-nnoremap <silent> <Leader>gF :Gina! fetch<CR>
-nnoremap <silent> <Leader>gl :Gina log --graph --all<CR>
-nnoremap <silent> <leader>go :,Gina browse :<CR>
-vnoremap <silent> <leader>go :Gina browse :<CR>
-nnoremap <silent> <Leader>gp :Gina! push<CR>
-nnoremap <silent> <leader>gs :Gina status -s<CR>
-
-if s:enable_whichkey
-	let g:which_key_map['g']['a'] = 'Stage buffer'
-	let g:which_key_map['g']['A'] = 'Stage all changes'
-	let g:which_key_map['g']['b'] = 'Open git blame'
-	let g:which_key_map['g']['c'] = 'Commit staged changes'
-	let g:which_key_map['g']['d'] = 'Diff buffer'
-	let g:which_key_map['g']['F'] = 'Fetch remote'
-	let g:which_key_map['g']['l'] = 'Display git log'
-	let g:which_key_map['g']['o'] = 'Open repo in browser'
-	let g:which_key_map['g']['p'] = 'Push commits'
-	let g:which_key_map['g']['s'] = 'Display git status'
+if PlugLoaded('caw.vim')
+	function! InitCaw() abort
+		if ! (&l:modifiable && &buftype ==# '')
+			silent! nunmap <buffer> <Leader>V
+			silent! xunmap <buffer> <Leader>V
+			silent! nunmap <buffer> <Leader>v
+			silent! xunmap <buffer> <Leader>v
+			silent! nunmap <buffer> gc
+			silent! xunmap <buffer> gc
+			silent! nunmap <buffer> gcc
+			silent! xunmap <buffer> gcc
+		else
+			xmap <buffer> <Leader>// <Plug>(caw:hatpos:toggle)
+			nmap <buffer> <Leader>// <Plug>(caw:hatpos:toggle)
+			xmap <buffer> <Leader>/a <Plug>(caw:dollarpos:comment)
+			nmap <buffer> <Leader>/a <Plug>(caw:dollarpos:comment)
+			xmap <buffer> <Leader>/b <Plug>(caw:box:comment)
+			nmap <buffer> <Leader>/b <Plug>(caw:box:comment)
+			xmap <buffer> <Leader>/c <Plug>(caw:hatpos:comment)
+			nmap <buffer> <Leader>/c <Plug>(caw:hatpos:comment)
+			xmap <buffer> <Leader>/j <Plug>(caw:jump:comment-next)
+			nmap <buffer> <Leader>/j <Plug>(caw:jump:comment-next)
+			xmap <buffer> <Leader>/k <Plug>(caw:jump:comment-prev)
+			nmap <buffer> <Leader>/k <Plug>(caw:jump:comment-prev)
+			xmap <buffer> <Leader>/i <Plug>(caw:zeropos:comment)
+			nmap <buffer> <Leader>/i <Plug>(caw:zeropos:comment)
+			xmap <buffer> <Leader>/w <Plug>(caw:wrap:toggle)
+			nmap <buffer> <Leader>/w <Plug>(caw:wrap:toggle)
+			nmap <buffer> gc <Plug>(caw:prefix)
+			xmap <buffer> gc <Plug>(caw:prefix)
+			nmap <buffer> gcc <Plug>(caw:hatpos:toggle)
+			xmap <buffer> gcc <Plug>(caw:hatpos:toggle)
+		endif
+	endfunction
+	autocmd FileType * call InitCaw()
+	call InitCaw()
 endif
 
-" Fern
-" -----
-nnoremap <silent> <Leader>ee :<C-u>Fern . -drawer -keep -toggle -width=35 -reveal=%<CR><C-w>=
-nnoremap <silent> <Leader>ea :<C-u>Fern . -drawer -keep -toggle -width=35<CR>
+if PlugLoaded('any-jump.vim')
+	nnoremap <silent> <leader>ab :AnyJumpBack<CR>
+	nnoremap <silent> <Leader>aj :AnyJump<CR>
+	xnoremap <silent> <Leader>aj :AnyJumpVisual<CR>
+	nnoremap <silent> <leader>al :AnyJumpLastResults<CR>
 
+	if s:enable_whichkey
+		let g:which_key_map['a'] = {
+					\ 'name' : '+any-jump',
+					\ 'b' : 'Open previously opened file',
+					\ 'j' : 'Open jump to definition window',
+					\ 'l' : 'Open last jump to definition result',
+					\ }
+	endif
+endif
+
+if PlugLoaded('gina.vim')
+	nnoremap <silent> <Leader>ga :Gina add %:p<CR>
+	nnoremap <silent> <Leader>gA :Gina add .<CR>
+	nnoremap <silent> <leader>gb :Gina blame --width=40<CR>
+	nnoremap <silent> <Leader>gc :Gina commit<CR>
+	nnoremap <silent> <leader>gd :Gina compare<CR>
+	nnoremap <silent> <Leader>gF :Gina! fetch<CR>
+	nnoremap <silent> <Leader>gl :Gina log --graph --all<CR>
+	nnoremap <silent> <leader>go :,Gina browse :<CR>
+	vnoremap <silent> <leader>go :Gina browse :<CR>
+	nnoremap <silent> <Leader>gp :Gina! push<CR>
+	nnoremap <silent> <leader>gs :Gina status -s<CR>
+
+	if s:enable_whichkey
+		let g:which_key_map['g']['a'] = 'Stage buffer'
+		let g:which_key_map['g']['A'] = 'Stage all changes'
+		let g:which_key_map['g']['b'] = 'Open git blame'
+		let g:which_key_map['g']['c'] = 'Commit staged changes'
+		let g:which_key_map['g']['d'] = 'Diff buffer'
+		let g:which_key_map['g']['F'] = 'Fetch remote'
+		let g:which_key_map['g']['l'] = 'Display git log'
+		let g:which_key_map['g']['o'] = 'Open repo in browser'
+		let g:which_key_map['g']['p'] = 'Push commits'
+		let g:which_key_map['g']['s'] = 'Display git status'
+	endif
+endif
+
+if PlugLoaded('fern.vim')
+	nnoremap <silent> <Leader>ee :<C-u>Fern . -drawer -keep -toggle -width=35 -reveal=%<CR><C-w>=
+	nnoremap <silent> <Leader>ea :<C-u>Fern . -drawer -keep -toggle -width=35<CR>
+
+	if s:enable_whichkey
+		let g:which_key_map['e']['a'] = 'Toggle explorer to current file'
+		let g:which_key_map['e']['e'] = 'Toggle explorer to current directory'
+	endif
+endif
