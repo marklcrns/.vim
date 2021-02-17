@@ -174,6 +174,14 @@ let g:any_jump_search_prefered_engine = 'rg'
 " WhichKey
 " -----
 
+call which_key#register('<Space>', 'g:which_key_map')
+call which_key#register(';', 'g:which_key_localmap')
+call which_key#register(']', 'g:which_key_rsbgmap')
+call which_key#register('[', 'g:which_key_lsbgmap')
+call which_key#register('d', 'g:which_key_dmap')
+call which_key#register('s', 'g:which_key_smap')
+call which_key#register('g', 'g:which_key_gmap')
+
 augroup user_events
 	autocmd! FileType which_key
 	autocmd  FileType which_key set laststatus=0 noshowmode noruler
