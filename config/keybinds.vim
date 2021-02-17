@@ -127,3 +127,18 @@ if PlugLoaded('fern.vim')
 		let g:which_key_map['e']['e'] = 'Toggle explorer to current directory'
 	endif
 endif
+
+if PlugLoaded('fzf.vim')
+	nnoremap <silent> <Leader>fdb :<C-u>Buffers<CR>
+	nnoremap <silent> <Leader>fdf :<C-u>Files<CR>
+	nnoremap <silent> <Leader>fdr :<C-u>Rg<CR>
+
+	if s:enable_whichkey
+		let g:which_key_map['f']['d'] = {
+					\ 'name' : '+finder',
+					\ 'f' : 'Find files on directory',
+					\ 'r' : 'Find word with rg',
+					\ 'b' : 'Find on buffers',
+					\ }
+	endif
+endif

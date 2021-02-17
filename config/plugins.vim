@@ -130,6 +130,11 @@ augroup END
 " -----
 let g:fzf_layout = { 'down': '~40%' }
 
+command! -bang -nargs=* Rg
+			\ call fzf#vim#grep(
+			\   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+			\   fzf#vim#with_preview(), <bang>0)
+
 " vim-rooter
 " -----
 let g:rooter_change_directory_for_non_project_files = 'current'
