@@ -1,1 +1,0 @@
-/home/linux/ieng6/cs15lwi21/cs15lwi21bcj/.vim/vimrc /home/linux/ieng6/cs15lwi21/cs15lwi21bcj/.vimrc
