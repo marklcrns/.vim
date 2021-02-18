@@ -401,7 +401,6 @@ let g:which_key_map = {
 			\ },
 			\ 's' : {
 			\ 'name' : '+sessions',
-			\ 'd' : 'Dashboard open',
 			\ 'l' : 'Load session {session-name}',
 			\ 'L' : 'List sessions',
 			\ 's' : 'Save session {session-name}',
