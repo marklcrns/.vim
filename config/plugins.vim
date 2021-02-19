@@ -33,6 +33,7 @@ Plug 'airblade/vim-gitgutter'
 " Misc
 Plug 'liuchengxu/vim-which-key'
 Plug 'airblade/vim-rooter'
+Plug 'romainl/vim-qf', { 'for': 'qf' }
 
 call plug#end()
 
@@ -277,6 +278,14 @@ let g:gitgutter_sign_priority = 0
 let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_set_sign_backgrounds = 1
 
+" vim-which-key
+" -----
+
+let g:qf_bufname_or_text = 1
+let g:qf_auto_open_quickfix = 0
+let g:qf_auto_open_loclist = 0
+let g:qf_auto_resize = 0
+let g:qf_auto_quit = 0
 
 " vim-which-key
 " -----
