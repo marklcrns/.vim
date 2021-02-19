@@ -28,6 +28,7 @@ Plug 'lambdalisue/fern-mapping-project-top.vim'
 
 " Git
 Plug 'lambdalisue/gina.vim'
+Plug 'airblade/vim-gitgutter'
 
 " Misc
 Plug 'liuchengxu/vim-which-key'
@@ -201,7 +202,7 @@ let g:any_jump_window_height_ratio = 0.8
 let g:any_jump_window_top_offset   = 5
 let g:any_jump_search_prefered_engine = 'rg'
 
-" Gina
+" gina
 " -----
 
 call gina#custom#command#alias('status', 'st')
@@ -260,8 +261,24 @@ if match(&runtimepath, 'vim-tmux-navigator') != -1
 	call gina#custom#mapping#nmap('status', '<C-k>', ':<C-u>TmuxNavigateUp<CR>')
 endif
 
+" vim-gitgutter
+" -----
 
-" WhichKey
+let g:gitgutter_map_keys = 0
+let g:gitgutter_sign_added = '▎'
+let g:gitgutter_sign_modified = '▎'
+let g:gitgutter_sign_removed = '▍'
+let g:gitgutter_sign_removed_first_line = '▘'
+let g:gitgutter_sign_removed_above_and_below = '_¯'
+let g:gitgutter_sign_modified_removed = '▍'
+let g:gitgutter_preview_win_floating = 1
+let g:gitgutter_sign_allow_clobber = 0
+let g:gitgutter_sign_priority = 0
+let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_set_sign_backgrounds = 1
+
+
+" vim-which-key
 " -----
 
 call which_key#register('<Space>', 'g:which_key_map')

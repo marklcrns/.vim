@@ -118,6 +118,24 @@ if PlugLoaded('gina.vim')
 	endif
 endif
 
+if PlugLoaded('vim-gitgutter')
+	nmap ]g <Plug>(GitGutterNextHunk)
+	nmap [g <Plug>(GitGutterPrevHunk)
+	nmap gS <Plug>(GitGutterStageHunk)
+	xmap gS <Plug>(GitGutterStageHunk)
+	nmap gs <Plug>(GitGutterPreviewHunk)
+	nmap <Leader>gr <Plug>(GitGutterUndoHunk)
+
+	if s:enable_whichkey
+		let g:which_key_rsbgmap['g'] = 'Go to next git changes hunk'
+		let g:which_key_lsbgmap['g'] = 'Go to prev git changes hunk'
+		let g:which_key_gmap['s'] = 'Preview git changes hunk'
+		let g:which_key_gmap['S'] = 'Stage git changes hunk'
+		let g:which_key_map['g']['r'] = 'Undo stage git changes hunk'
+	endif
+endif
+
+
 if PlugLoaded('fern.vim')
 	nnoremap <silent> <Leader>ee :<C-u>Fern . -drawer -keep -toggle -width=35 -reveal=%<CR><C-w>=
 	nnoremap <silent> <Leader>ea :<C-u>Fern . -drawer -keep -toggle -width=35<CR>
