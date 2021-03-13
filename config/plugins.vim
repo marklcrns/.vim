@@ -278,7 +278,7 @@ let g:gitgutter_sign_priority = 0
 let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_set_sign_backgrounds = 1
 
-" vim-which-key
+" vim-qf
 " -----
 
 let g:qf_bufname_or_text = 1
